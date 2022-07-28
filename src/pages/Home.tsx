@@ -1,5 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import SouthWestIcon from '@mui/icons-material/SouthWest';
+import Chart from "react-apexcharts";
 
 import {
   Avatar,
@@ -19,6 +21,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useTheme } from "@mui/material/styles";
 import { AccountBalanceWallet } from "@mui/icons-material";
 import StreamList from "../components/StreamList";
+import { useState } from "react";
 
 export default function Home() {
   const theme = useTheme();
@@ -27,6 +30,62 @@ export default function Home() {
     enter: theme.transitions.duration.enteringScreen,
     exit: theme.transitions.duration.leavingScreen,
   };
+
+  const [options, setOptions] = useState(
+    {
+      colors: [theme.palette.primary.main],
+      chart: {
+          sparkline: {
+              enabled: !0
+          }
+      },
+      xaxis: {
+          labels: {
+              show: !1
+          }
+      },
+      yaxis: {
+          labels: {
+              show: !1
+          }
+      },
+      stroke: {
+          width: 4
+      },
+      legend: {
+          show: !1
+      },
+      grid: {
+          show: !1
+      },
+      tooltip: {
+          marker: {
+              show: !1
+          },
+          y: {
+              formatter: function(e) {
+                  return 233
+              },
+              title: {
+                  formatter: function() {
+                      return ""
+                  }
+              }
+          }
+      },
+      fill: {
+          gradient: {
+              opacityFrom: .56,
+              opacityTo: .56
+          }
+      },
+  })
+
+  const [series, setSeries] = useState([{
+    name: "series-1",
+    data: [30, 40, 45, 50, 49, 60, 70, 91]
+  }])
+
   return (
     <div>
       <Toolbar disableGutters>
@@ -59,9 +118,10 @@ export default function Home() {
           }}
           elevation={0}
         >
-          <CardContent
+          <Box
           sx={{
             padding: 3,
+            paddingBottom: 2,
             position: 'relative'
           }}
           >
@@ -84,10 +144,11 @@ export default function Home() {
               mt={1}
               display={'flex'}
               alignItems={'center'}
+              gap={'4px'}
             >
               <TrendingUpIcon fontSize="small" />
-              <Typography sx={{ paddingLeft: '4px' }} > +2.6%</Typography>
-              <Typography> than last month</Typography>
+              <Typography variant="body2" sx={{ fontWeight: 600 }} > +2.6%</Typography>
+              <Typography variant="body2">than last month</Typography>
             </Box>
             <Box
               sx={{
@@ -103,14 +164,21 @@ export default function Home() {
                 right: 24,
                 top: 24,
               }}>
-                <TrendingUpIcon />
+                <SouthWestIcon />
               </Box>
             {/* <LinearProgress
               variant="determinate"
               value={23}
               color="secondary"
             /> */}
-          </CardContent>
+          </Box>
+          <Chart
+              options={options}
+              series={series}
+              type="line"
+              width="100%"
+              height={100}
+            />
         </Card>
         <StreamList />
       </Box>
