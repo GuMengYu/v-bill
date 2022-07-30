@@ -1,36 +1,62 @@
-import { AccountBalanceWallet } from "@mui/icons-material";
 import {
-  Avatar,
   Box,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemIcon,
-  ListItemText,
   Typography,
   useTheme,
 } from "@mui/material";
 import { useMemo } from "react";
+import type { Stream } from "../types";
+import { AMOUNTTYPE } from "../types";
+import { Item } from "./Item";
 
-export default function StreamItem() {
-  const theme = useTheme();
-  const fontColor = useMemo(() => {
-    return theme.palette.onSurfaceVariant.main;
-  }, [theme]);
+function SymbolText({ text, bg = true }: { text: string; bg?: boolean }) {
   return (
-    <Box
+    <Typography
+      variant="caption"
       sx={{
-        width: "100%",
-        maxWidth: 360,
-        borderRadius: 6,
-        bgcolor: theme.palette.surfaceVariant.main,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: 24,
+        padding: "0 6px",
+        bgcolor: bg ? "surfaceVariant.main" : "",
+        color: "onSurfaceVariant.main",
+        borderRadius: 1,
       }}
     >
+      {text}
+    </Typography>
+  );
+}
+
+export default function StreamItem({
+  date,
+  list,
+}: {
+  date: string;
+  list: Stream[];
+}) {
+  const theme = useTheme();
+  const fontColor = useMemo(() => {
+    return theme.palette.primary.main;
+  }, [theme]);
+  const incomeAndExpensesCount = useMemo(() => {
+    let income = 0;
+    let expenses = 0;
+    list.map((i) => {
+      if (i.type === AMOUNTTYPE.income) {
+        income += i.amount;
+      } else if (i.type === AMOUNTTYPE.expenses) {
+        expenses += i.amount;
+      }
+    });
+    return { income, expenses };
+  }, [list]);
+  return (
+    <Box display={"flex"} flexDirection="column" gap="2px">
       <Box
         display={"flex"}
         justifyContent={"space-between"}
         alignItems={"center"}
-        pt={1}
       >
         <Typography
           sx={{
@@ -40,62 +66,19 @@ export default function StreamItem() {
           }}
           color={fontColor}
         >
-          08-12
+          {date}
         </Typography>
-        <Typography
-          sx={{
-            fontSize: 14,
-            fontWeight: 500,
-            marginRight: 2,
-          }}
-          color={fontColor}
-        >
-          收 12 支 12
-        </Typography>
+        <Box display={"flex"} alignItems="center">
+          <SymbolText text="收" />{" "}
+          <SymbolText text={`¥${incomeAndExpensesCount.income}`} bg={false} />
+          <SymbolText text="支" />{" "}
+          <SymbolText text={`¥${incomeAndExpensesCount.expenses}`} bg={false} />
+        </Box>
       </Box>
 
-      <ListItem>
-        <ListItemAvatar>
-          <Avatar>
-            <AccountBalanceWallet />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="面包" secondary="14:11" color={fontColor} />
-        <Box
-          component={"span"}
-          sx={{
-            borderRadius: 4,
-            paddingX: 1,
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "end",
-          }}
-          color={fontColor}
-        >
-          $234
-        </Box>
-      </ListItem>
-      <ListItem>
-        <ListItemAvatar>
-          <Avatar>
-            <AccountBalanceWallet />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="午饭" secondary="12:11" />
-        <Box
-          component={"span"}
-          sx={{
-            borderRadius: 4,
-            paddingX: 1,
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "end",
-          }}
-          color={fontColor}
-        >
-          $50
-        </Box>
-      </ListItem>
+      {list.map((i) => {
+        return <Item data={i} key={i.id} />;
+      })}
     </Box>
   );
 }
