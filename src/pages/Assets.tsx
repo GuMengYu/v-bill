@@ -129,10 +129,41 @@ export default function Assets() {
             </Box>
           </Card>
         </Box>
+        <Typography mt={2}>储蓄账户</Typography>
         <Box display="flex" gap={1} flexDirection="column" mt={1}>
           <Item
+            listRounded={false}
             data={{
               classification: "现金",
+              id: "001",
+              type: "收入",
+              amount: 998,
+            }}
+          ></Item>
+          <Item
+            data={{
+              classification: "支付宝",
+              id: "001",
+              type: "收入",
+              amount: 998,
+            }}
+          ></Item>
+          <Item
+            listRounded={false}
+            data={{
+              classification: "招商银行",
+              id: "001",
+              type: "收入",
+              amount: 9887432,
+            }}
+          ></Item>
+        </Box>
+        <Typography mt={2}>信用账户</Typography>
+        <Box display="flex" gap={1} flexDirection="column" mt={1}>
+          <Item
+            listRounded={false}
+            data={{
+              classification: "花呗",
               id: "001",
               type: "income",
               amount: 998,
@@ -140,17 +171,38 @@ export default function Assets() {
           ></Item>
           <Item
             data={{
-              classification: "现金",
+              classification: "白条",
               id: "001",
               type: "income",
               amount: 998,
             }}
           ></Item>
           <Item
+            listRounded={false}
             data={{
-              classification: "现金",
+              classification: "招商信用卡",
               id: "001",
               type: "income",
+              amount: 9887432,
+            }}
+          ></Item>
+        </Box>
+        <Typography mt={2}>投资账户</Typography>
+        <Box display="flex" gap={1} flexDirection="column" mt={1}>
+          <Item
+            listRounded={false}
+            data={{
+              classification: "蚂蚁基金",
+              id: "001",
+              type: "收入",
+              amount: 998,
+            }}
+          ></Item>
+          <Item
+            data={{
+              classification: "股票",
+              id: "001",
+              type: "收入",
               amount: 998,
             }}
           ></Item>

@@ -23,7 +23,7 @@ function Text(props: { text: string; color: Color }) {
         padding: "0px 8px",
         color: props.color.textColor,
         bgcolor: props.color.bgColor,
-        fontSize: "0.75rem",
+        fontSize: "0.875rem",
         fontWeight: 700,
         borderRadius: "6px",
         paddingX: 1,
@@ -34,7 +34,7 @@ function Text(props: { text: string; color: Color }) {
     </Box>
   );
 }
-export function Item({ data }: { data: Stream }) {
+export function Item({ data, listRounded = true }: { data: Stream; listRounded: boolean }) {
   const inCome = useMemo(() => {
     return data.type === AMOUNTTYPE.income;
   }, [data]);
@@ -51,19 +51,22 @@ export function Item({ data }: { data: Stream }) {
   }, [inCome]);
   return (
     <ListItem
+      dense
       sx={{
         bgcolor: "surfaceVariant.main",
         paddingLeft: "12px",
         paddingRight: "12px",
         borderRadius: 1,
-        "&:first-of-type": {
-          borderTopLeftRadius: 16,
-          borderTopRightRadius: 16,
-        },
-        "&:last-of-type": {
-          borderBottomLeftRadius: 16,
-          borderBottomRightRadius: 16,
-        },
+        ...(listRounded ? {
+          "&:first-of-type": {
+            borderTopLeftRadius: 16,
+            borderTopRightRadius: 16,
+          },
+          "&:last-of-type": {
+            borderBottomLeftRadius: 16,
+            borderBottomRightRadius: 16,
+          },
+        }: {})
       }}
     >
       <ListItemAvatar>

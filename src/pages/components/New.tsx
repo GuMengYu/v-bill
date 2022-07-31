@@ -1,7 +1,5 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import Divider from "@mui/material/Divider";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -14,6 +12,7 @@ import { Box, Tab, Tabs } from "@mui/material";
 import { useState } from "react";
 import { AMOUNTTYPE, INPUTKEY } from "../../types";
 import BackspaceIcon from "@mui/icons-material/Backspace";
+import Keyboard from "../../components/Keyboard";
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
@@ -41,9 +40,10 @@ export default function FullScreenDialog({
   // };
   const [recordType, setRecordType] = useState<AMOUNTTYPE>(AMOUNTTYPE.expenses);
 
-  const handleTap = (e, v) => {
-    console.log(v)
-  }
+  const [amount, setAmont] = useState("0.00");
+  const handleTap = (val: string) => {
+    setAmont(val)
+  };
   return (
     <div>
       <Dialog
@@ -95,70 +95,22 @@ export default function FullScreenDialog({
               <Typography variant="h6">房租水电</Typography>
             </Box>
             <Box display="flex" alignItems="center" ml={2}>
-              <Typography variant="h4">0.00</Typography>
+              <Typography variant="h4" sx={{
+                fontFamily: 'Roboto Mono'
+              }}>{amount}</Typography>
             </Box>
           </Box>
-          <InputArea onTap={handleTap} />
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: 0,
+              width: '100%',
+            }}
+          >
+            <Keyboard onChange={handleTap} value={amount} />
+          </Box>
         </Box>
       </Dialog>
     </div>
-  );
-}
-
-function InputArea({ onTap }: { onTap?: (event: any, val: INPUTKEY) => void }) {
-  function InputButton({
-    children,
-    bgcolor,
-    val = 0,
-  }: {
-    children: React.ReactNode;
-    val?: INPUTKEY;
-    bgcolor?: string
-  }) {
-    return (
-      <Button
-      sx={{
-        margin: '3px',
-        bgcolor: bgcolor || 'surfaceVariant.main',
-      }}
-        size="large"
-        onClick={(e) => {
-          //
-          onTap && onTap(e, val)
-        }}
-      >
-        {children}
-      </Button>
-    );
-  }
-  return (
-    <Box
-      sx={{
-        position: "absolute",
-        bottom: 0,
-        width: "100%",
-        display: "grid",
-        gridTemplateColumns: "repeat(4, 1fr)",
-      }}
-    >
-      <InputButton val={INPUTKEY.seven}>7</InputButton>
-      <InputButton val={INPUTKEY.eight}>8</InputButton>
-      <InputButton val={INPUTKEY.nine}>9</InputButton>
-      <InputButton val={INPUTKEY.del}>
-        <BackspaceIcon />
-      </InputButton>
-      <InputButton val={INPUTKEY.four}>4</InputButton>
-      <InputButton val={INPUTKEY.five}>5</InputButton>
-      <InputButton val={INPUTKEY.six}>6</InputButton>
-      <InputButton val={INPUTKEY.plus}>+</InputButton>
-      <InputButton val={INPUTKEY.one}>1</InputButton>
-      <InputButton val={INPUTKEY.two}>2</InputButton>
-      <InputButton val={INPUTKEY.three}>3</InputButton>
-      <InputButton val={INPUTKEY.minus}>-</InputButton>
-      <InputButton val={INPUTKEY.eight}>$</InputButton>
-      <InputButton val={INPUTKEY.zero}>0</InputButton>
-      <InputButton val={INPUTKEY.dot}>.</InputButton>
-      <InputButton val={INPUTKEY.confirm} bgcolor="primary.main">完成</InputButton>
-    </Box>
   );
 }
