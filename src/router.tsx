@@ -7,7 +7,7 @@ const Home = lazy(() => import("./pages/Home"));
 const Analysis = lazy(() => import("./pages/Analysis"));
 
 const Assets = lazy(() => import("./pages/Assets"));
-
+const Setting = lazy(() => import("./pages/settings/Setting"))
 const routes: RouteObject[] = [
   {
     path: "/",
@@ -34,6 +34,7 @@ const Router = () => {
         <Route path="/" element={lazyload(<Home />)} />
         <Route path="/analysis" element={lazyload(<Analysis />)} />
         <Route path="/assets" element={lazyload(<Assets />)} />
+        <Route path="/settings" element={lazyload(<Setting />)} />
       </Routes>
     </AnimatePresence>
   );

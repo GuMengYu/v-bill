@@ -24,10 +24,10 @@ export default function Nav() {
 
   return (
     <Paper
-      sx={{ position: "fixed", bottom: 0, left: 0, right: 0, bgcolor: "red" }}
+      sx={{ position: "fixed", bottom: 0, left: 0, right: 0, bgcolor: 'surface.main' }}
       elevation={0}
     >
-      <BottomNavigation value={value} onChange={handleChange} showLabels>
+      <BottomNavigation value={value} onChange={handleChange} showLabels sx={{ bgcolor: 'surface.main' }}>
         <BottomNavigationAction
          component={NavLink}
           to="/"

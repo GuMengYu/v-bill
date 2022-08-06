@@ -9,21 +9,19 @@ import { Item } from "../components/Item";
 export default function Assets() {
   return (
     <PageTransition>
-      <Box py={2}>
-        {/* <Typography
+      <Box mt={8}>
+        <Typography
           variant="h5"
           noWrap
           color="onSurface.main"
           sx={{
-            mr: 2,
-            display: { xs: "flex", md: "none" },
-            fontWeight: 700,
             flexGrow: 1,
           }}
         >
           资产
-        </Typography> */}
-        <Box display="flex" gap={1}>
+        </Typography>
+
+        <Box display="flex" gap={1} mt={2}>        
           <Card
             sx={{
               flex: 1,
@@ -130,11 +128,11 @@ export default function Assets() {
           </Card>
         </Box>
         <Typography mt={2}>储蓄账户</Typography>
-        <Box display="flex" gap={1} flexDirection="column" mt={1}>
+        <Box display="flex" gap={"2px"} flexDirection="column" mt={1}>
           <Item
-            listRounded={false}
             data={{
-              classification: "现金",
+              primary: "钱包",
+              secondary: "现金",
               id: "001",
               type: "收入",
               amount: 998,
@@ -142,16 +140,17 @@ export default function Assets() {
           ></Item>
           <Item
             data={{
-              classification: "支付宝",
+              primary: "支付宝",
+              secondary: "储蓄卡",
               id: "001",
               type: "收入",
               amount: 998,
             }}
           ></Item>
           <Item
-            listRounded={false}
             data={{
-              classification: "招商银行",
+              primary: "招商银行",
+              secondary: "储蓄卡",
               id: "001",
               type: "收入",
               amount: 9887432,
@@ -159,11 +158,11 @@ export default function Assets() {
           ></Item>
         </Box>
         <Typography mt={2}>信用账户</Typography>
-        <Box display="flex" gap={1} flexDirection="column" mt={1}>
+        <Box display="flex" gap={"2px"} flexDirection="column" mt={1}>
           <Item
-            listRounded={false}
             data={{
-              classification: "花呗",
+              primary: "花呗",
+              secondary: "信用卡",
               id: "001",
               type: "income",
               amount: 998,
@@ -171,16 +170,17 @@ export default function Assets() {
           ></Item>
           <Item
             data={{
-              classification: "白条",
+              primary: "白条",
+              secondary: "信用卡",
               id: "001",
               type: "income",
               amount: 998,
             }}
           ></Item>
           <Item
-            listRounded={false}
             data={{
-              classification: "招商信用卡",
+              primary: "招商信用卡",
+              secondary: "信用卡",
               id: "001",
               type: "income",
               amount: 9887432,
@@ -188,11 +188,11 @@ export default function Assets() {
           ></Item>
         </Box>
         <Typography mt={2}>投资账户</Typography>
-        <Box display="flex" gap={1} flexDirection="column" mt={1}>
+        <Box display="flex" gap={"2px"} flexDirection="column" mt={1}>
           <Item
-            listRounded={false}
             data={{
-              classification: "蚂蚁基金",
+              primary: "蚂蚁基金",
+              secondary: "投资",
               id: "001",
               type: "收入",
               amount: 998,
@@ -200,7 +200,8 @@ export default function Assets() {
           ></Item>
           <Item
             data={{
-              classification: "股票",
+              primary: "股票",
+              secondary: "投资",
               id: "001",
               type: "收入",
               amount: 998,

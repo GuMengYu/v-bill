@@ -10,7 +10,6 @@ export default function StreamList({ list }: { list: Stream[] }) {
       return dayjs(i.createtime).format("MM-DD");
     });
   }, [list]);
-  console.log(items);
   return (
     <List
       sx={{

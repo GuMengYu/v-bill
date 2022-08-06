@@ -1,14 +1,12 @@
 import { ListItem, ListItemAvatar, Avatar, ListItemText, Box } from "@mui/material";
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 import { useMemo } from "react";
-import { AMOUNTTYPE, Stream } from "../types";
-import dayjs from 'dayjs'
+import { AMOUNTTYPE } from "../types";
 
 interface Color {
   textColor: string;
   bgColor: string;
 }
-const formatTime = (time?: string) => time && dayjs(time).format('HH:mm')
 
 function Text(props: { text: string; color: Color }) {
   return (
@@ -34,7 +32,12 @@ function Text(props: { text: string; color: Color }) {
     </Box>
   );
 }
-export function Item({ data, listRounded = true }: { data: Stream; listRounded: boolean }) {
+export function Item({ data, listRounded = true }: { data: {
+  primary: string
+  secondary?: string
+  type?: AMOUNTTYPE
+  amount: number
+}; listRounded?: boolean }) {
   const inCome = useMemo(() => {
     return data.type === AMOUNTTYPE.income;
   }, [data]);
@@ -79,7 +82,7 @@ export function Item({ data, listRounded = true }: { data: Stream; listRounded: 
           <AccountBalanceWalletIcon />
         </Avatar>
       </ListItemAvatar>
-      <ListItemText primary={data.classification} secondary={formatTime(data.createtime)} />
+      <ListItemText primary={data.primary} secondary={data.secondary} />
       <Text text={`${inCome ? "+" : ""}¥${data.amount}`} color={color}></Text>
     </ListItem>
   );

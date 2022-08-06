@@ -7,6 +7,7 @@ import {
   Card,
   Fab,
   IconButton,
+  Menu,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -18,6 +19,7 @@ import { useState } from "react";
 import { ApexOptions } from "apexcharts";
 import PageTransition from "../components/PageTransition";
 import NewDialog from "./components/New";
+import Welcome from "./components/Welcome";
 
 export default function Home() {
   const theme = useTheme();
@@ -119,27 +121,7 @@ export default function Home() {
   return (
     <PageTransition>
       <div>
-        <Toolbar disableGutters>
-          <Typography
-            variant="h5"
-            noWrap
-            color={theme.palette.onSurface.main}
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              fontWeight: 600,
-              flexGrow: 1,
-            }}
-          >
-            Hello You
-          </Typography>
-          <IconButton sx={{ p: 0 }}>
-            <Avatar
-              alt="Remy Sharp"
-              src="https://mui.com/static/images/avatar/2.jpg"
-            />
-          </IconButton>
-        </Toolbar>
+        <Welcome />
         <Box py={3}>
           <Card
             sx={{

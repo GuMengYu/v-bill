@@ -1,8 +1,5 @@
-import {
-  Box,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
+import dayjs from "dayjs";
 import { useMemo } from "react";
 import type { Stream } from "../types";
 import { AMOUNTTYPE } from "../types";
@@ -27,6 +24,7 @@ function SymbolText({ text, bg = true }: { text: string; bg?: boolean }) {
     </Typography>
   );
 }
+const formatTime = (time?: string) => time && dayjs(time).format('HH:mm')
 
 export default function StreamItem({
   date,
@@ -62,7 +60,7 @@ export default function StreamItem({
           sx={{
             fontSize: 18,
             fontWeight: 500,
-            marginLeft: 2,
+            marginLeft: 1,
           }}
           color={fontColor}
         >
@@ -77,7 +75,12 @@ export default function StreamItem({
       </Box>
 
       {list.map((i) => {
-        return <Item data={i} key={i.id} />;
+        return <Item data={{
+          primary: i.classification!,
+          secondary: formatTime(i.createtime),
+          amount: i.amount,
+          type: i.type
+        }} key={i.id} />;
       })}
     </Box>
   );
