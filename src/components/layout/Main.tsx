@@ -7,7 +7,7 @@ export default function Main() {
   return (
     <Container
       style={{
-        height: '100vh'
+        paddingBottom: '56px'
       }}
     >
       <Router />

@@ -1,27 +1,22 @@
-import { Box, Card, Typography } from "@mui/material";
+import { Box, Card, Fab, Typography, Zoom } from "@mui/material";
 import PageTransition from "../components/PageTransition";
-
+import NewAssets from './components/NewAssets'
 import {
+  CardGiftcard,
   Money as MoneyIcon,
   AccountBalance as AccountBalanceIcon,
 } from "@mui/icons-material";
 import { Item } from "../components/Item";
+import Header from "@/components/layout/Header";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 export default function Assets() {
+  const navigate = useNavigate()
   return (
     <PageTransition>
-      <Box mt={8}>
-        <Typography
-          variant="h5"
-          noWrap
-          color="onSurface.main"
-          sx={{
-            flexGrow: 1,
-          }}
-        >
-          资产
-        </Typography>
-
-        <Box display="flex" gap={1} mt={2}>        
+      <Header title="资产" back></Header>
+      <Box>
+        <Box display="flex" gap={1} mt={2}>
           <Card
             sx={{
               flex: 1,
@@ -209,6 +204,24 @@ export default function Assets() {
           ></Item>
         </Box>
       </Box>
+      <Zoom in={true} unmountOnExit>
+          <Fab
+            size="medium"
+            sx={{
+              position: "fixed",
+              bottom: 64,
+              right: 24,
+              borderRadius: 4,
+            }}
+            aria-label="new"
+            color="primaryContainer"
+            onClick={() => {
+              navigate('../settings/classification1')
+            }}
+          >
+            <CardGiftcard fontSize="small"></CardGiftcard>
+          </Fab>
+        </Zoom>
     </PageTransition>
   );
 }

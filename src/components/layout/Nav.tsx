@@ -3,18 +3,10 @@ import { NavLink } from "react-router-dom";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import Paper from "@mui/material/Paper";
-import { ListAlt, AccountBalanceWallet, Score } from "@mui/icons-material";
+import { ListAlt, Settings, Score } from "@mui/icons-material";
 import { useState } from "react";
 import { Link } from "@mui/material";
 
-function ButtomLink() {
-  return (
-    <BottomNavigationAction
-      value="assets"
-      icon={<AccountBalanceWallet />}
-    ></BottomNavigationAction>
-  );
-}
 export default function Nav() {
   const [value, setValue] = useState("home");
 
@@ -44,10 +36,10 @@ export default function Nav() {
         />
         <BottomNavigationAction
           component={NavLink}
-          to="/assets"
+          to="/settings"
           // label="资产"
-          value="assets"
-          icon={<AccountBalanceWallet />}
+          value="settings"
+          icon={<Settings />}
         />
       </BottomNavigation>
     </Paper>

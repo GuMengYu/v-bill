@@ -19,7 +19,7 @@ export default defineConfig({
       name: 'v-bill',
       short_name: 'vbill',
       description: '记账软件',
-      theme_color: '#fff',
+      theme_color: '#fdfcf4',
       icons: [
         {
           src: 'pwa-192x192.png',

@@ -7,7 +7,14 @@ const Home = lazy(() => import("./pages/Home"));
 const Analysis = lazy(() => import("./pages/Analysis"));
 
 const Assets = lazy(() => import("./pages/Assets"));
-const Setting = lazy(() => import("./pages/settings/Setting"))
+const Setting = lazy(() => import("./pages/settings/Setting"));
+
+import {
+  ChooseClassStep1,
+  ChooseClassStep2,
+  ChooseClassStep3,
+} from "@/pages/settings/Classification";
+
 const routes: RouteObject[] = [
   {
     path: "/",
@@ -33,8 +40,20 @@ const Router = () => {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={lazyload(<Home />)} />
         <Route path="/analysis" element={lazyload(<Analysis />)} />
-        <Route path="/assets" element={lazyload(<Assets />)} />
         <Route path="/settings" element={lazyload(<Setting />)} />
+        <Route path="/settings/assets" element={lazyload(<Assets />)} />
+        <Route
+          path="/settings/classification1"
+          element={<ChooseClassStep1 />}
+        />
+        <Route
+          path="/settings/classification2"
+          element={<ChooseClassStep2 />}
+        />
+        <Route
+          path="/settings/classification3"
+          element={<ChooseClassStep3 />}
+        />
       </Routes>
     </AnimatePresence>
   );

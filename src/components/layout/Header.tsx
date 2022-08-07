@@ -17,15 +17,17 @@ export default function Header({
     <Toolbar
       sx={{
         padding: 0,
-        margin: "0 -16px",
-        justifyContent: "center",
+        minHeight: 128,
+        alignItems: 'initial',
+        flexDirection: 'column',
       }}
     >
       {back ? (
         <IconButton
           sx={{
-            position: "absolute",
-            left: 0,
+            alignSelf: 'start',
+            position: 'relative',
+            left: '-12px',
           }}
           onClick={() => navigate(-1)}
         >
@@ -35,15 +37,15 @@ export default function Header({
         ""
       )}
 
-      <Typography variant="subtitle1">{title}</Typography>
-      <Box
+      <Typography variant="h5" mt="auto">{title}</Typography>
+      {/* <Box
         sx={{
           position: "absolute",
           right: 0,
         }}
       >
         {more}
-      </Box>
+      </Box> */}
     </Toolbar>
   );
 }

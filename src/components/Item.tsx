@@ -1,5 +1,11 @@
-import { ListItem, ListItemAvatar, Avatar, ListItemText, Box } from "@mui/material";
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
+import {
+  ListItem,
+  ListItemAvatar,
+  Avatar,
+  ListItemText,
+  Box,
+} from "@mui/material";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import { useMemo } from "react";
 import { AMOUNTTYPE } from "../types";
 
@@ -32,12 +38,18 @@ function Text(props: { text: string; color: Color }) {
     </Box>
   );
 }
-export function Item({ data, listRounded = true }: { data: {
-  primary: string
-  secondary?: string
-  type?: AMOUNTTYPE
-  amount: number
-}; listRounded?: boolean }) {
+export function Item({
+  data,
+  listRounded = true,
+}: {
+  data: {
+    primary: string;
+    secondary?: string;
+    type?: AMOUNTTYPE;
+    amount?: number;
+  };
+  listRounded?: boolean;
+}) {
   const inCome = useMemo(() => {
     return data.type === AMOUNTTYPE.income;
   }, [data]);
@@ -60,17 +72,20 @@ export function Item({ data, listRounded = true }: { data: {
         paddingLeft: "12px",
         paddingRight: "12px",
         borderRadius: 1,
-        ...(listRounded ? {
-          "&:first-of-type": {
-            borderTopLeftRadius: 16,
-            borderTopRightRadius: 16,
-          },
-          "&:last-of-type": {
-            borderBottomLeftRadius: 16,
-            borderBottomRightRadius: 16,
-          },
-        }: {})
+        ...(listRounded
+          ? {
+              "&:first-of-type": {
+                borderTopLeftRadius: 16,
+                borderTopRightRadius: 16,
+              },
+              "&:last-of-type": {
+                borderBottomLeftRadius: 16,
+                borderBottomRightRadius: 16,
+              },
+            }
+          : {}),
       }}
+      onClick={() => {}}
     >
       <ListItemAvatar>
         <Avatar
@@ -83,7 +98,9 @@ export function Item({ data, listRounded = true }: { data: {
         </Avatar>
       </ListItemAvatar>
       <ListItemText primary={data.primary} secondary={data.secondary} />
-      <Text text={`${inCome ? "+" : ""}¥${data.amount}`} color={color}></Text>
+      {data.amount ? (
+        <Text text={`${inCome ? "+" : ""}¥${data.amount}`} color={color}></Text>
+      ) : ''}
     </ListItem>
   );
 }
