@@ -30,6 +30,7 @@ specifiers:
   typescript: ^4.6.3
   vite: ^2.9.9
   vite-plugin-pwa: ^0.12.3
+  workbox-window: ^6.5.4
 
 dependencies:
   '@emotion/css': 11.9.0_@babel+core@7.18.5
@@ -54,6 +55,7 @@ dependencies:
   react-router-dom: 6.3.0_biqbaboplfbrettd7655fr4n2y
   react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
   vite-plugin-pwa: 0.12.3_vite@2.9.12
+  workbox-window: 6.5.4
 
 devDependencies:
   '@babel/core': 7.18.5
