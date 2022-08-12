@@ -10,11 +10,12 @@ import { Item } from "../components/Item";
 import Header from "@/components/layout/Header";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Welcome from "./components/Welcome";
 export default function Assets() {
   const navigate = useNavigate()
   return (
     <PageTransition>
-      <Header title="资产" back></Header>
+      <Header height={64} title="资产" back={false} more={ <Welcome/>}></Header>
       <Box>
         <Box display="flex" gap={1} mt={2}>
           <Card
@@ -48,7 +49,7 @@ export default function Assets() {
                 color="text.secondary"
                 mt={1}
               >
-                $293456.45
+                293456.45
               </Typography>
               <Box
                 sx={{
@@ -100,7 +101,7 @@ export default function Assets() {
                 color="text.secondary"
                 mt={1}
               >
-                $2123
+                2123
               </Typography>
               <Box
                 sx={{

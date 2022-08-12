@@ -6,10 +6,12 @@ export default function Header({
   title = "",
   back = false,
   more,
+  height = 128,
 }: {
   title: string;
   back?: boolean;
   more?: JSX.Element;
+  height?: number
 }) {
   const navigate = useNavigate();
 
@@ -17,7 +19,7 @@ export default function Header({
     <Toolbar
       sx={{
         padding: 0,
-        minHeight: 128,
+        minHeight: height,
         alignItems: 'initial',
         flexDirection: 'column',
       }}
@@ -38,14 +40,14 @@ export default function Header({
       )}
 
       <Typography variant="h5" mt="auto">{title}</Typography>
-      {/* <Box
+      <Box
         sx={{
           position: "absolute",
           right: 0,
         }}
       >
         {more}
-      </Box> */}
+      </Box>
     </Toolbar>
   );
 }

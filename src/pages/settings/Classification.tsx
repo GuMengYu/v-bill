@@ -2,7 +2,7 @@ import Header from "@/components/layout/Header";
 import PageTransition from "@/components/PageTransition";
 import { Box, Typography } from "@mui/material";
 
-export default () => {
+export default function Classification (){
   return (
     <PageTransition>
       <Box mt={8}>

@@ -85,7 +85,6 @@ export function Item({
             }
           : {}),
       }}
-      onClick={() => {}}
     >
       <ListItemAvatar>
         <Avatar

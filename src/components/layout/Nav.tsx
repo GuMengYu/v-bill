@@ -16,29 +16,29 @@ export default function Nav() {
 
   return (
     <Paper
-      sx={{ position: "fixed", bottom: 0, left: 0, right: 0, bgcolor: 'surface.main' }}
+      sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
       elevation={0}
     >
       <BottomNavigation value={value} onChange={handleChange} showLabels sx={{ bgcolor: 'surface.main' }}>
         <BottomNavigationAction
          component={NavLink}
           to="/"
-          // label="明细"
+          label="明细"
           value="home"
           icon={<ListAlt />}
         ></BottomNavigationAction>
         <BottomNavigationAction
          component={NavLink}
          to="/analysis"
-          // label="统计"
+          label="统计"
           value="analysis"
           icon={<Score />}
         />
         <BottomNavigationAction
           component={NavLink}
-          to="/settings"
-          // label="资产"
-          value="settings"
+          to="/assets"
+          label="资产"
+          value="assets"
           icon={<Settings />}
         />
       </BottomNavigation>

@@ -10,6 +10,7 @@ function SymbolText({ text, bg = true }: { text: string; bg?: boolean }) {
     <Typography
       variant="caption"
       sx={{
+        fontWeight: 700,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -55,6 +56,7 @@ export default function StreamItem({
         display={"flex"}
         justifyContent={"space-between"}
         alignItems={"center"}
+        mb={'4px'}
       >
         <Typography
           sx={{

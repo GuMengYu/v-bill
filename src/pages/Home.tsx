@@ -20,6 +20,7 @@ import { ApexOptions } from "apexcharts";
 import PageTransition from "../components/PageTransition";
 import NewDialog from "./components/New";
 import Welcome from "./components/Welcome";
+import Header from "@/components/layout/Header";
 
 export default function Home() {
   const theme = useTheme();
@@ -110,6 +111,30 @@ export default function Home() {
       type: AMOUNTTYPE.income,
       amount: 500,
     },
+    {
+      id: "6",
+      classification: "红包",
+      remark: "妈妈",
+      createtime: "2021-01-10 08:00",
+      type: AMOUNTTYPE.income,
+      amount: 500,
+    },
+    {
+      id: "7",
+      classification: "红包",
+      remark: "妈妈",
+      createtime: "2021-01-10 08:00",
+      type: AMOUNTTYPE.income,
+      amount: 500,
+    },
+    {
+      id: "8",
+      classification: "红包",
+      remark: "妈妈",
+      createtime: "2021-01-10 08:00",
+      type: AMOUNTTYPE.income,
+      amount: 500,
+    },
   ]);
 
   const [open, setOpen] = useState(false)
@@ -121,7 +146,7 @@ export default function Home() {
   return (
     <PageTransition>
       <div>
-        <Welcome />
+        <Header title="交易" height={64}></Header>
         <Box py={3}>
           <Card
             sx={{

@@ -14,7 +14,7 @@ export default function Welcome() {
   }
   function handleNav(target: string) {
     switch(target) {
-      case 'setting': navigate('./settings'); break;
+      case 'setting': navigate('../settings'); break;
     }
     handleClose()
   }
@@ -31,7 +31,7 @@ export default function Welcome() {
           flexGrow: 1,
         }}
       >
-        Hello You
+        
       </Typography>
       <IconButton sx={{ p: 0 }}
        onClick={handleClick}

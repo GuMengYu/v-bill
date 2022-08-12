@@ -40,8 +40,8 @@ const Router = () => {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={lazyload(<Home />)} />
         <Route path="/analysis" element={lazyload(<Analysis />)} />
+        <Route path="/assets/" element={lazyload(<Assets />)} />
         <Route path="/settings" element={lazyload(<Setting />)} />
-        <Route path="/settings/assets" element={lazyload(<Assets />)} />
         <Route
           path="/settings/classification1"
           element={<ChooseClassStep1 />}
