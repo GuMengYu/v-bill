@@ -50,7 +50,7 @@ export default function Analysis() {
   return (
     <PageTransition>
       <div>
-        <Chart
+        {/* <Chart
           options={options}
           series={series}
           type="line"
@@ -67,7 +67,7 @@ export default function Analysis() {
           series={series}
           type="line"
           height={140}
-        />
+        /> */}
       </div>
     </PageTransition>
   );

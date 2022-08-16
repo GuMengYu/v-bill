@@ -1,7 +1,7 @@
 export enum AMOUNTTYPE {
-  income = '收入',
-  expenses = '支出',
-  transfer = '转移',
+  income,
+  expenses,
+  transfer,
 }
 
 export interface Stream {
@@ -17,6 +17,33 @@ export interface Stream {
   remark?: string
   creator?: string
   creatorId?: string
+}
+
+export interface Flow {
+  id: string
+  type: number
+  category: Category
+  comments: string
+  account: Account
+  createTime: number
+  updateTime: number
+  recType: number
+  amount: number  
+}
+export interface Account {
+  id: string
+  name: string
+  balanceMoney: number
+  type: number
+}
+export interface Category {
+  id: string
+  name: string
+  icon?: string
+  type: number
+  isSystem?: boolean
+  createTime: number
+  updateTime: number
 }
 
 export enum INPUTKEY {

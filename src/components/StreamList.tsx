@@ -1,13 +1,13 @@
 import { List } from "@mui/material";
-import { Stream } from "../types";
+import { Flow } from "../types";
 import StreamItem from "./StreamItem";
 import { groupBy } from "lodash-es";
 import dayjs from "dayjs";
 import { useMemo } from "react";
-export default function StreamList({ list }: { list: Stream[] }) {
+export default function StreamList({ list }: { list: Flow[] }) {
   const items = useMemo(() => {
     return groupBy(list, (i) => {
-      return dayjs(i.createtime).format("MM-DD");
+      return dayjs(i.createTime).format("MM-DD");
     });
   }, [list]);
   return (

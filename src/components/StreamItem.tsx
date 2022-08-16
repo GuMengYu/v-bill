@@ -1,7 +1,7 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import dayjs from "dayjs";
 import { useMemo } from "react";
-import type { Stream } from "../types";
+import type { Flow } from "../types";
 import { AMOUNTTYPE } from "../types";
 import { Item } from "./Item";
 
@@ -32,7 +32,7 @@ export default function StreamItem({
   list,
 }: {
   date: string;
-  list: Stream[];
+  list: Flow[];
 }) {
   const theme = useTheme();
   const fontColor = useMemo(() => {
@@ -42,9 +42,9 @@ export default function StreamItem({
     let income = 0;
     let expenses = 0;
     list.map((i) => {
-      if (i.type === AMOUNTTYPE.income) {
+      if (i.recType === AMOUNTTYPE.income) {
         income += i.amount;
-      } else if (i.type === AMOUNTTYPE.expenses) {
+      } else if (i.recType === AMOUNTTYPE.expenses) {
         expenses += i.amount;
       }
     });
@@ -78,10 +78,10 @@ export default function StreamItem({
 
       {list.map((i) => {
         return <Item data={{
-          primary: i.classification!,
-          secondary: formatTime(i.createtime),
+          primary: i.category?.name,
+          secondary: formatTime(i.createTime),
           amount: i.amount,
-          type: i.type
+          type: i.recType
         }} key={i.id} />;
       })}
     </Box>

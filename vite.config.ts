@@ -10,6 +10,17 @@ export default defineConfig({
       '@': join(__dirname, 'src'),
     },
   },
+  server: {
+    port: 12140,
+    proxy: {
+      // http://127.0.0.1:4523/m1/1448890-0-default mock server
+      // https://cloudbase-baas-4g55sa6t673d1fe0-1253508198.ap-shanghai.app.tcloudbase.com
+      '/api': {
+        target: 'http://127.0.0.1:4523/m1/1448890-0-default',
+        changeOrigin: true,
+      }
+    }
+  },
   plugins: [react(),
   VitePWA({
     injectRegister: 'auto',
