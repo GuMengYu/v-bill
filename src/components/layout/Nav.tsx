@@ -5,7 +5,7 @@ import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import Paper from "@mui/material/Paper";
 import { ListAlt, Settings, Score } from "@mui/icons-material";
 import { useState } from "react";
-import { Link } from "@mui/material";
+import { Button, Link } from "@mui/material";
 
 export default function Nav() {
   const [value, setValue] = useState("home");
@@ -22,7 +22,7 @@ export default function Nav() {
       <BottomNavigation value={value} onChange={handleChange} showLabels sx={{ bgcolor: 'surface.main' }}>
         <BottomNavigationAction
          component={NavLink}
-          to="/"
+          to="/home"
           label="明细"
           value="home"
           icon={<ListAlt />}

@@ -17,7 +17,7 @@ import {
 
 const routes: RouteObject[] = [
   {
-    path: "/",
+    path: "/home",
     element: <Home />,
   },
   {
@@ -34,11 +34,10 @@ const lazyload = (component: ReactNode) => {
   return <Suspense>{component}</Suspense>;
 };
 const Router = () => {
-  const element = useRoutes(routes);
   return (
     <AnimatePresence exitBeforeEnter>
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={lazyload(<Home />)} />
+        <Route path="/home" element={lazyload(<Home />)} />
         <Route path="/analysis" element={lazyload(<Analysis />)} />
         <Route path="/assets/" element={lazyload(<Assets />)} />
         <Route path="/settings" element={lazyload(<Setting />)} />

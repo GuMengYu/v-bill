@@ -79,13 +79,11 @@ export default function Home() {
     setOpen(false)
   }
   
-  console.log('render home page')
-
-  // useEffect(() => {
-  //   flowList().then(res => {
-  //     setList(res.data.flows)
-  //   })
-  // }, [])
+  useEffect(() => {
+    flowList().then(res => {
+      setList(res.data.flows)
+    })
+  }, [])
                                                                                                               
   return (
     <PageTransition>

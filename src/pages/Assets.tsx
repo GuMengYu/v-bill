@@ -1,6 +1,7 @@
 import { Box, Card, Fab, Typography, Zoom } from "@mui/material";
 import PageTransition from "../components/PageTransition";
 import NewAssets from './components/NewAssets'
+import { useRequest } from "ahooks";
 import {
   CardGiftcard,
   Money as MoneyIcon,
@@ -8,11 +9,27 @@ import {
 } from "@mui/icons-material";
 import { Item } from "../components/Item";
 import Header from "@/components/layout/Header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Welcome from "./components/Welcome";
+import { assetsInfo } from "@/api";
 export default function Assets() {
   const navigate = useNavigate()
+  const [assets, setAssets ]= useState<{
+    assets: number;
+    netAssets: number;
+    liabilities: number;
+  }>()
+
+  const { data, loading, error } = useRequest(assetsInfo)
+  // useEffect(() => {
+  //   assetsInfo().then(({data}) => {
+  //     setAssets(data.accountSummary)
+  //   })
+  // }, [])
+  console.log('render')
+  const accountsList = data?.data.accountList
+  const accountSummary = data?.data.accountSummary
   return (
     <PageTransition>
       <Header height={64} title="资产" back={false} more={ <Welcome/>}></Header>
@@ -42,14 +59,13 @@ export default function Assets() {
               >
                 总资产
               </Typography>
-
               <Typography
                 variant="h6"
                 sx={{ fontWeight: 700 }}
                 color="text.secondary"
                 mt={1}
               >
-                293456.45
+                { accountSummary?.assets }
               </Typography>
               <Box
                 sx={{
@@ -101,7 +117,7 @@ export default function Assets() {
                 color="text.secondary"
                 mt={1}
               >
-                2123
+               { accountSummary?.liabilities }
               </Typography>
               <Box
                 sx={{
@@ -125,84 +141,27 @@ export default function Assets() {
         </Box>
         <Typography mt={2}>储蓄账户</Typography>
         <Box display="flex" gap={"2px"} flexDirection="column" mt={1}>
-          <Item
-            data={{
-              primary: "钱包",
-              secondary: "现金",
-              id: "001",
-              type: "收入",
-              amount: 998,
-            }}
-          ></Item>
-          <Item
-            data={{
-              primary: "支付宝",
-              secondary: "储蓄卡",
-              id: "001",
-              type: "收入",
-              amount: 998,
-            }}
-          ></Item>
-          <Item
-            data={{
-              primary: "招商银行",
-              secondary: "储蓄卡",
-              id: "001",
-              type: "收入",
-              amount: 9887432,
-            }}
-          ></Item>
+          {
+            accountsList?.map((i) => {
+              return (<Item
+                key={i.id}
+                data={{
+                  primary: i.name,
+                  secondary: i.type,
+                  type: i.type,
+                  amount: i.balanceMoney,
+                }}
+              ></Item>)
+            })
+          }
         </Box>
         <Typography mt={2}>信用账户</Typography>
         <Box display="flex" gap={"2px"} flexDirection="column" mt={1}>
-          <Item
-            data={{
-              primary: "花呗",
-              secondary: "信用卡",
-              id: "001",
-              type: "income",
-              amount: 998,
-            }}
-          ></Item>
-          <Item
-            data={{
-              primary: "白条",
-              secondary: "信用卡",
-              id: "001",
-              type: "income",
-              amount: 998,
-            }}
-          ></Item>
-          <Item
-            data={{
-              primary: "招商信用卡",
-              secondary: "信用卡",
-              id: "001",
-              type: "income",
-              amount: 9887432,
-            }}
-          ></Item>
+     
         </Box>
         <Typography mt={2}>投资账户</Typography>
         <Box display="flex" gap={"2px"} flexDirection="column" mt={1}>
-          <Item
-            data={{
-              primary: "蚂蚁基金",
-              secondary: "投资",
-              id: "001",
-              type: "收入",
-              amount: 998,
-            }}
-          ></Item>
-          <Item
-            data={{
-              primary: "股票",
-              secondary: "投资",
-              id: "001",
-              type: "收入",
-              amount: 998,
-            }}
-          ></Item>
+         
         </Box>
       </Box>
       <Zoom in={true} unmountOnExit>
