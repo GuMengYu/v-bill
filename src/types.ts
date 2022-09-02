@@ -4,6 +4,12 @@ export enum AMOUNTTYPE {
   transfer,
 }
 
+export enum AccountTypes {
+  credit = 1,
+  saving = 2,
+  investment = 3
+}
+
 export interface Stream {
   id: string,
   type: AMOUNTTYPE
@@ -34,7 +40,7 @@ export interface Account {
   id: string
   name: string
   balanceMoney: number
-  type: number
+  type: number | string
 }
 export interface Category {
   id: string

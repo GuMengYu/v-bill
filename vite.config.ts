@@ -11,7 +11,7 @@ export default defineConfig({
     },
   },
   server: {
-    port: 12140,
+    port: 3001,
     proxy: {
       // http://127.0.0.1:4523/m1/1448890-0-default mock server
       // https://cloudbase-baas-4g55sa6t673d1fe0-1253508198.ap-shanghai.app.tcloudbase.com
