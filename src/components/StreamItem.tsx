@@ -77,11 +77,15 @@ export default function StreamItem({
       </Box>
 
       {list.map((i) => {
-        return <Item data={{
+        const color = i.recType === AMOUNTTYPE.income
+         ? { textColor: "rgb(34, 154, 22)", bgColor: "rgba(84, 214, 44, 0.16)"}
+         : { textColor: "rgb(183, 33, 54)", bgColor: "rgba(255, 72, 66, 0.16)"}
+        return <Item dense data={{
           primary: i.category?.name,
           secondary: formatTime(i.createTime),
           amount: i.amount,
-          type: i.recType
+          type: i.recType,
+          color,
         }} key={i.id} />;
       })}
     </Box>

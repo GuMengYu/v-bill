@@ -1,4 +1,4 @@
-import { Box, Card, Fab, Typography, Zoom } from "@mui/material";
+import { Box, Card, Divider, Fab, Typography, Zoom } from "@mui/material";
 import PageTransition from "../components/PageTransition";
 import NewAssets from './components/NewAssets'
 import { useRequest } from "ahooks";
@@ -20,8 +20,8 @@ export default function Assets() {
 
 
   const { data, loading, error } = useRequest(assetsInfo)
-  const accountsList = data?.data.accountList
-  const accountSummary = data?.data.accountSummary
+  const accountsList = data?.data.accounts
+  const accountSummary = data?.data.accountsSummary
   const accounts = useMemo(() => {
     const group = groupBy(accountsList, 'type')
     return {
@@ -42,7 +42,7 @@ export default function Assets() {
               color: "onSurfaceVariant.main",
               borderRadius: 6,
               display: "flex",
-              padding: 3,
+              padding: 2,
             }}
             elevation={0}
           >
@@ -53,20 +53,45 @@ export default function Assets() {
               flex="1"
             >
               <Typography
-                variant="body2"
+                variant="subtitle2"
                 color="text.secondary"
-                fontWeight={700}
+                fontWeight={600}
               >
-                总资产
+                净资产
               </Typography>
               <Typography
-                variant="h6"
+                variant="h5"
                 sx={{ fontWeight: 700 }}
+                my={'4px'}
                 color="text.secondary"
-                mt={1}
               >
-                { accountSummary?.assets }
+                { accountSummary?.netAssets }
               </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                }}
+              >
+              <Typography
+                
+                variant="subtitle2"
+                sx={{ fontWeight: 600 }}
+                color="text.secondary"
+              >
+                总资产: { accountSummary?.netAssets }
+              </Typography>
+              <Divider orientation="vertical" variant="middle" flexItem  />
+              <Typography
+                variant="subtitle2"
+                sx={{ fontWeight: 600 }}
+                color="text.secondary"
+              >                
+                负债: { accountSummary?.liabilities }
+              </Typography>
+              </Box>
+             
               <Box
                 sx={{
                   height: 32,
@@ -78,70 +103,18 @@ export default function Assets() {
                   color: "onPrimary.main",
                   position: "absolute",
                   borderRadius: "50%",
-                  right: -8,
-                  top: -8,
+                  right: -4,
+                  top: -4,
                 }}
               >
                 <MoneyIcon fontSize="small" />
               </Box>
             </Box>
           </Card>
-          <Card
-            sx={{
-              flex: 1,
-              bgcolor: "surfaceVariant.main",
-              color: "onSurfaceVariant.main",
-              borderRadius: 6,
-              display: "flex",
-              padding: 3,
-            }}
-            elevation={0}
-          >
-            <Box
-              sx={{
-                position: "relative",
-              }}
-              flex="1"
-            >
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                fontWeight={700}
-              >
-                总负债
-              </Typography>
-
-              <Typography
-                variant="h6"
-                sx={{ fontWeight: 700 }}
-                color="text.secondary"
-                mt={1}
-              >
-               { accountSummary?.liabilities }
-              </Typography>
-              <Box
-                sx={{
-                  height: 32,
-                  width: 32,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  bgcolor: "secondary.main",
-                  color: "onSecondary.main",
-                  position: "absolute",
-                  borderRadius: "50%",
-                  right: -8,
-                  top: -8,
-                }}
-              >
-                <AccountBalanceIcon fontSize="small" />
-              </Box>
-            </Box>
-          </Card>
         </Box>
-        <Asset accounts={ accounts.saving } title="储蓄账户"></Asset>
-        <Asset accounts={ accounts.credit } title="信用账户"></Asset>
-        <Asset accounts={ accounts.investment } title="投资账户"></Asset>
+        <AssetCard accounts={ accounts.saving } title="储蓄账户"></AssetCard>
+        <AssetCard accounts={ accounts.credit } title="信用账户"></AssetCard>
+        <AssetCard accounts={ accounts.investment } title="投资账户"></AssetCard>
       </Box>
       <Zoom in={true} unmountOnExit>
           <Fab
@@ -165,7 +138,7 @@ export default function Assets() {
   );
 }
 
-function Asset({
+function AssetCard({
   accounts =  [],
   title = '',
 } : {
@@ -180,12 +153,11 @@ function Asset({
           key={i.id}
           data={{
             primary: i.name,
-            secondary: i.type,
             type: i.type,
             amount: i.balanceMoney,
           }}
         ></Item>)
       })
     }
-  </Box></> : '')
+  </Box></> : <></>)
 }

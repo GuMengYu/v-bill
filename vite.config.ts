@@ -11,13 +11,15 @@ export default defineConfig({
     },
   },
   server: {
-    port: 3001,
+    port: 3003,
     proxy: {
       // http://127.0.0.1:4523/m1/1448890-0-default mock server
       // https://cloudbase-baas-4g55sa6t673d1fe0-1253508198.ap-shanghai.app.tcloudbase.com
+      // http://127.0.0.1:3303
       '/api': {
-        target: 'http://127.0.0.1:4523/m1/1448890-0-default',
+        target: 'http://127.0.0.1:3002',
         changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, '')
       }
     }
   },

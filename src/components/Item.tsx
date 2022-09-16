@@ -14,7 +14,7 @@ interface Color {
   bgColor: string;
 }
 
-function Text(props: { text: string; color: Color }) {
+function Text(props: { text: string | number; color?: Color }) {
   return (
     <Box
       component={"span"}
@@ -25,8 +25,8 @@ function Text(props: { text: string; color: Color }) {
         justifyContent: "center",
         alignItems: "center",
         padding: "0px 8px",
-        color: props.color.textColor,
-        bgcolor: props.color.bgColor,
+        color: props.color?.textColor,
+        bgcolor: props.color?.bgColor,
         fontSize: "0.875rem",
         fontWeight: 700,
         borderRadius: "6px",
@@ -39,34 +39,26 @@ function Text(props: { text: string; color: Color }) {
   );
 }
 export function Item({
+  dense,
   data,
   listRounded = true,
 }: {
+  dense?: boolean
   data: {
     primary: string;
     secondary?: string;
     type?: AMOUNTTYPE;
     amount?: number;
+    color?: Color
   };
   listRounded?: boolean;
 }) {
   const inCome = useMemo(() => {
     return data.type === AMOUNTTYPE.income;
   }, [data]);
-  const color: Color = useMemo(() => {
-    return inCome
-      ? {
-          textColor: "rgb(34, 154, 22)",
-          bgColor: "rgba(84, 214, 44, 0.16)",
-        }
-      : {
-          textColor: "rgb(183, 33, 54)",
-          bgColor: "rgba(255, 72, 66, 0.16)",
-        };
-  }, [inCome]);
   return (
     <ListItem
-      dense
+      dense={dense}
       sx={{
         bgcolor: "surfaceVariant.main",
         paddingLeft: "12px",
@@ -89,8 +81,8 @@ export function Item({
       <ListItemAvatar>
         <Avatar
           sx={{
-            bgcolor: color.bgColor,
-            color: color.textColor,
+            bgcolor: data.color?.bgColor,
+            color: data.color?.textColor,
           }}
         >
           <AccountBalanceWalletIcon />
@@ -98,7 +90,7 @@ export function Item({
       </ListItemAvatar>
       <ListItemText primary={data.primary} secondary={data.secondary} />
       {data.amount ? (
-        <Text text={`${inCome ? "+" : ""}¥${data.amount}`} color={color}></Text>
+        <Text text={data.amount} color={data.color}></Text>
       ) : ''}
     </ListItem>
   );

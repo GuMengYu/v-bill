@@ -37,6 +37,7 @@ const Router = () => {
   return (
     <AnimatePresence exitBeforeEnter>
       <Routes location={location} key={location.pathname}>
+        <Route index element={lazyload(<Home />)} />
         <Route path="/home" element={lazyload(<Home />)} />
         <Route path="/analysis" element={lazyload(<Analysis />)} />
         <Route path="/assets/" element={lazyload(<Assets />)} />

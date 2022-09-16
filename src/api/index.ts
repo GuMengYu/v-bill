@@ -7,19 +7,19 @@ export function flowList() {
     data: {
       flows: Flow[]
     }
-  }>('/flow/sync')
+  }>('/flows')
 }
 
 export function assetsInfo() {
   return request<{
     code: number
     data: {
-      accountList: Account[]
-      accountSummary: {
+      accounts: Account[]
+      accountsSummary: {
         assets: number
         netAssets: number
         liabilities: number
       }
     }
-  }>('/accounts/info')
+  }>('/accounts')
 }
