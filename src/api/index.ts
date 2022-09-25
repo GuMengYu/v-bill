@@ -1,4 +1,4 @@
-import { Account, Flow } from '@/types'
+import { Account, Category, Flow } from '@/types'
 import { request } from '@/utils/fetch'
 
 export function flowList() {
@@ -22,4 +22,13 @@ export function assetsInfo() {
       }
     }
   }>('/accounts')
+}
+
+export function getCatList() {
+  return request<{
+    code:  number,
+    data: {
+      cats: Category[]
+    }
+  }>('/cats')
 }

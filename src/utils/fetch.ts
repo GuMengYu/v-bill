@@ -1,7 +1,9 @@
 import type { Options } from './yofetch'
 import yofetch from './yofetch'
+
+console.log(import.meta.env.DEV)
 const service = yofetch.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.DEV ? '/api' : 'http://ec2-18-167-116-79.ap-east-1.compute.amazonaws.com:3002',
   credentials: 'include',
 })
 

@@ -68,4 +68,5 @@ export enum INPUTKEY {
   plus = '+',
   minus = '-',
   confirm = 'onfirm',
+  eq = '='
 }

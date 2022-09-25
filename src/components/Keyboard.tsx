@@ -98,14 +98,17 @@ export default function Keyboard({
   }) => {
     return (
       <Button
-        variant="outlined"
-        size="large"
         sx={{
-          margin: "3px",
+          bgcolor: 'surfaceVariant.main',
+          margin: '0.15rem',
+          borderRadius: 2,
           gridColumn: gridColumn,
-          fontSize: '1.25rem',
+          fontSize: '1rem',
         }}
-        onClick={(e) => keybordPress(code)}
+        onClick={(e) => {
+          e.preventDefault(); keybordPress(code)
+        }
+      }
       >
         {children}
       </Button>
@@ -121,21 +124,29 @@ export default function Keyboard({
       <InputButton code={INPUTKEY.seven}>7</InputButton>
       <InputButton code={INPUTKEY.eight}>8</InputButton>
       <InputButton code={INPUTKEY.nine}>9</InputButton>
-      <InputButton code={INPUTKEY.del}>
-        <BackspaceIcon sx={{ fontSize: "1rem" }} />
-      </InputButton>
+      <InputButton code={INPUTKEY.plus}>+</InputButton>
+
+      
       <InputButton code={INPUTKEY.four}>4</InputButton>
       <InputButton code={INPUTKEY.five}>5</InputButton>
       <InputButton code={INPUTKEY.six}>6</InputButton>
-      <InputButton code={INPUTKEY.plus}>+</InputButton>
+      <InputButton code={INPUTKEY.minus}>-</InputButton>
+    
       <InputButton code={INPUTKEY.one}>1</InputButton>
       <InputButton code={INPUTKEY.two}>2</InputButton>
       <InputButton code={INPUTKEY.three}>3</InputButton>
-      <InputButton code={INPUTKEY.minus}>-</InputButton>
-      <InputButton code={INPUTKEY.zero} gridColumn="1/3">
+      <InputButton code={INPUTKEY.eq}>
+       =
+      </InputButton>
+      <InputButton code={INPUTKEY.dot}>
+       .
+      </InputButton>
+      <InputButton code={INPUTKEY.zero}>
         0
       </InputButton>
-      <InputButton code={INPUTKEY.dot}>.</InputButton>
+      <InputButton code={INPUTKEY.del}>
+        <BackspaceIcon sx={{ fontSize: "1rem" }} />
+      </InputButton>
       <InputButton code={INPUTKEY.confirm}> {calc ? '=' : '完成'}</InputButton>
     </Box>
   );
