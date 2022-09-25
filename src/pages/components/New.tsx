@@ -17,6 +17,8 @@ import FaceIcon from "@mui/icons-material/Face";
 import Keyboard from "../../components/Keyboard";
 import { useRequest } from "ahooks";
 import { getCatList } from "@/api";
+import { appState, syncCats } from '@/valtio'
+import { useSnapshot } from 'valtio'
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
@@ -42,12 +44,10 @@ export default function FullScreenDialog({
   // const handleClose = () => {
   //   setOpen(false);
   // };
+  const snap = useSnapshot(appState)
   const [recordType, setRecordType] = useState<AMOUNTTYPE>(AMOUNTTYPE.expenses);
 
   const [amount, setAmont] = useState("0.00");
-  // const [ catlist, setCatList ] = useState([{ name: '12' }])
-  const { data: catData, loading, error } = useRequest(getCatList)
-  const catlist = catData?.data.cats ?? []
   const handleTap = (val: string) => {
     setAmont(val)
   };
@@ -107,7 +107,7 @@ export default function FullScreenDialog({
               }}>{amount}</Typography>
             </Box>
           </Box>
-         <CatList cats={catlist} />
+         <CatList cats={snap.cats} />
           
           <Box
             sx={{
@@ -146,7 +146,7 @@ function CatList({cats}: {cats: []}) {
   >
     {
       cats.map(cat => {
-        return <Cat cat={ cat }></Cat>
+        return <Cat cat={ cat } key={ cat.id }></Cat>
       })
     }
     
