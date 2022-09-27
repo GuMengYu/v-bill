@@ -10,14 +10,12 @@ import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import { Box, Chip, Tab, Tabs } from "@mui/material";
 import { useState } from "react";
-import { AMOUNTTYPE, INPUTKEY } from "../../types";
+import { AMOUNTTYPE, Category, INPUTKEY } from "../../types";
 import BackspaceIcon from "@mui/icons-material/Backspace";
 import FaceIcon from "@mui/icons-material/Face";
 
 import Keyboard from "../../components/Keyboard";
-import { useRequest } from "ahooks";
-import { getCatList } from "@/api";
-import { appState, syncCats } from '@/valtio'
+import { appState } from '@/valtio'
 import { useSnapshot } from 'valtio'
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -97,15 +95,18 @@ export default function FullScreenDialog({
             <Tab label="转账" value={AMOUNTTYPE.transfer} />
           </Tabs>
           <Box display="flex" justifyContent="space-between" px={1} py={1}>
-            <Box display="flex" alignItems="center" gap={1}>
+            <Box display="flex" alignItems="center" gap={1} flex={1}>
               <BackspaceIcon color="error" />
               <Typography>房租水电</Typography>
             </Box>
-            <Box display="flex" alignItems="center" ml={2}>
-              <Typography variant="h5" sx={{
-                fontFamily: 'Roboto Mono'
+            <Typography variant="h4" sx={{
+              textAlign: 'end',
+               flex: '2',
+               textOverflow: 'ellipsis',
+               overflow: 'hidden',
+               lineClamp: '1',
+               WebkitLineClamp: '1',
               }}>{amount}</Typography>
-            </Box>
           </Box>
          <CatList cats={snap.cats} />
           
@@ -119,10 +120,10 @@ export default function FullScreenDialog({
             <Box sx={{
               display: 'flex',
               gap: 1, 
-              mb: 0.5,
+              mb: 1,
              }}>
-              <Chip icon={<FaceIcon />} label="现金" size="small" onClick={() => {}} />
-              <Chip icon={<FaceIcon />} label="添加备注" size="small" onClick={() => {}} />
+              <Chip icon={<FaceIcon />} label="现金" onClick={() => {}} />
+              <Chip icon={<FaceIcon />} label="添加备注" onClick={() => {}} />
             </Box>
             <Keyboard onChange={handleTap} value={amount} />
           </Box>
@@ -132,14 +133,14 @@ export default function FullScreenDialog({
   );
 }
 
-function CatList({cats}: {cats: []}) {
+function CatList({cats}: {cats: Category[]}) {
   return <Box
     sx={{
       display: 'grid',
-      gridTemplateColumns: 'repeat(5, 1fr)',
+      gridTemplateColumns: 'repeat(4, 1fr)',
       gridTemplateRows: 'auto',
       justifyItems: 'center',
-      maxHeight: 336,
+      maxHeight: 'calc(100vh - 424px)',
       overflowY: 'auto',
       my: 1,
     }}
@@ -152,7 +153,7 @@ function CatList({cats}: {cats: []}) {
     
   </Box>
 }
-function Cat({cat}) {
+function Cat({cat}: { cat: Category }) {
   return <Box display="flex"  sx={
     {
       flexDirection: 'column',
@@ -161,7 +162,7 @@ function Cat({cat}) {
       // width: 50,
     }
   } onClick={ () => {} }>
-    <IconButton size="small"><FaceIcon></FaceIcon></IconButton>
-    <Typography variant="caption">{ cat.name }</Typography>
+    <IconButton><FaceIcon></FaceIcon></IconButton>
+    <Typography variant="body2">{ cat.name }</Typography>
   </Box>
 }

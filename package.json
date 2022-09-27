@@ -19,6 +19,7 @@
     "@typescript-eslint/parser": "^5.33.0",
     "ahooks": "^3.7.0",
     "apexcharts": "^3.35.4",
+    "camelcase": "^7.0.0",
     "dayjs": "^1.11.4",
     "eslint": "^8.21.0",
     "eslint-plugin-react": "^7.30.1",

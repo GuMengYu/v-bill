@@ -2,6 +2,8 @@ import { Button, Box } from "@mui/material";
 import { useRef, useState } from "react";
 import { INPUTKEY } from "../types";
 import { Backspace as BackspaceIcon } from "@mui/icons-material";
+import camelCase from 'camelcase'
+
 export default function Keyboard({
   onChange,
   value,
@@ -91,19 +93,26 @@ export default function Keyboard({
     children,
     code = 0,
     gridColumn,
+    color = 'surfaceVariant',
   }: {
     children: React.ReactNode;
     code?: INPUTKEY;
     gridColumn?: string;
+    color?: string
   }) => {
+    const textColor = `${camelCase(`on ${color}`)}.main`
     return (
       <Button
+        color={color}
+        variant="contained"
+        size="large"
         sx={{
-          bgcolor: 'surfaceVariant.main',
-          margin: '0.15rem',
+          margin: '2px',
           borderRadius: 2,
           gridColumn: gridColumn,
           fontSize: '1rem',
+          boxShadow: 'none',
+          color: textColor,
         }}
         onClick={(e) => {
           e.preventDefault(); keybordPress(code)
@@ -124,18 +133,18 @@ export default function Keyboard({
       <InputButton code={INPUTKEY.seven}>7</InputButton>
       <InputButton code={INPUTKEY.eight}>8</InputButton>
       <InputButton code={INPUTKEY.nine}>9</InputButton>
-      <InputButton code={INPUTKEY.plus}>+</InputButton>
+      <InputButton code={INPUTKEY.plus} color="tertiaryContainer">+</InputButton>
 
       
       <InputButton code={INPUTKEY.four}>4</InputButton>
       <InputButton code={INPUTKEY.five}>5</InputButton>
       <InputButton code={INPUTKEY.six}>6</InputButton>
-      <InputButton code={INPUTKEY.minus}>-</InputButton>
+      <InputButton code={INPUTKEY.minus} color="tertiaryContainer">-</InputButton>
     
       <InputButton code={INPUTKEY.one}>1</InputButton>
       <InputButton code={INPUTKEY.two}>2</InputButton>
       <InputButton code={INPUTKEY.three}>3</InputButton>
-      <InputButton code={INPUTKEY.eq}>
+      <InputButton code={INPUTKEY.eq} color="tertiaryContainer">
        =
       </InputButton>
       <InputButton code={INPUTKEY.dot}>
@@ -147,7 +156,7 @@ export default function Keyboard({
       <InputButton code={INPUTKEY.del}>
         <BackspaceIcon sx={{ fontSize: "1rem" }} />
       </InputButton>
-      <InputButton code={INPUTKEY.confirm}> {calc ? '=' : '完成'}</InputButton>
+      <InputButton code={INPUTKEY.confirm} color="primaryContainer"> {calc ? '=' : '完成'}</InputButton>
     </Box>
   );
 }
