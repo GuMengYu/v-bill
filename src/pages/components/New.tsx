@@ -8,15 +8,16 @@ import CloseIcon from "@mui/icons-material/Close";
 import MoreVert from "@mui/icons-material/MoreVert";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
-import { Box, Chip, Tab, Tabs } from "@mui/material";
+import { Box, Chip, styled, Tab, Tabs } from "@mui/material";
 import { useState } from "react";
 import { AMOUNTTYPE, Category, INPUTKEY } from "../../types";
-import BackspaceIcon from "@mui/icons-material/Backspace";
 import FaceIcon from "@mui/icons-material/Face";
-
+import { allIconsMap } from '@/utils/icons'
 import Keyboard from "../../components/Keyboard";
 import { appState } from '@/valtio'
 import { useSnapshot } from 'valtio'
+import SvgIcon from '@mui/material/SvgIcon';
+
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
@@ -96,7 +97,7 @@ export default function FullScreenDialog({
           </Tabs>
           <Box display="flex" justifyContent="space-between" px={1} py={1}>
             <Box display="flex" alignItems="center" gap={1} flex={1}>
-              <BackspaceIcon color="error" />
+              <FaceIcon />
               <Typography>房租水电</Typography>
             </Box>
             <Typography variant="h4" sx={{
@@ -113,7 +114,7 @@ export default function FullScreenDialog({
           <Box
             sx={{
               position: "absolute",
-              bottom: 8,
+              bottom: 16,
               width: 'calc(100% - 16px)'
             }}
           >
@@ -140,9 +141,8 @@ function CatList({cats}: {cats: Category[]}) {
       gridTemplateColumns: 'repeat(4, 1fr)',
       gridTemplateRows: 'auto',
       justifyItems: 'center',
-      maxHeight: 'calc(100vh - 424px)',
+      maxHeight: 'calc(100vh - 420px)',
       overflowY: 'auto',
-      my: 1,
     }}
   >
     {
@@ -153,7 +153,18 @@ function CatList({cats}: {cats: Category[]}) {
     
   </Box>
 }
+
+const StyledSvgIcon = styled(SvgIcon)(({ theme }) => ({
+  boxSizing: 'content-box',
+  cursor: 'pointer',
+  color: theme.palette.onSurfaceVariant.main,
+  borderRadius: theme.shape.borderRadius,
+  '&:focus': {
+    outline: 'none'
+  },
+}));
 function Cat({cat}: { cat: Category }) {
+  const icon = cat.icon ? allIconsMap[cat.icon] : allIconsMap.defaultIcon
   return <Box display="flex"  sx={
     {
       flexDirection: 'column',
@@ -162,7 +173,13 @@ function Cat({cat}: { cat: Category }) {
       // width: 50,
     }
   } onClick={ () => {} }>
-    <IconButton><FaceIcon></FaceIcon></IconButton>
+    <IconButton>
+      <StyledSvgIcon
+        component={icon.component}
+        title={icon.importName}
+      >
+      </StyledSvgIcon>
+      </IconButton>
     <Typography variant="body2">{ cat.name }</Typography>
   </Box>
 }
