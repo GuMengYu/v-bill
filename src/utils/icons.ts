@@ -7,8 +7,10 @@ import {
   BusinessCenterRounded,
   DirectionsBoatRounded,
   ElderlyWomanRounded,
-  RequestQuoteRounded,
+  PaymentRounded,
 } from '@mui/icons-material'
+import { SvgIcon } from '@mui/material';
+import { styled } from '@mui/material/styles';
 const mui: Record<string, unknown> = {
   AcUnitRounded,
   AccountBalanceRounded,
@@ -18,16 +20,15 @@ const mui: Record<string, unknown> = {
   BusinessCenterRounded,
   DirectionsBoatRounded,
   ElderlyWomanRounded,
-  RequestQuoteRounded,
+  defaultIcon: PaymentRounded
 }
-const allIconsMap: Record<string, unknown> | { defaultIcon: unknown }  = {
-  defaultIcon: {
-    importName: 'RequestQuoteRounded',
-    name: 'RequestQuote',
-    theme: 'Rounded',
-    component: mui['RequestQuoteRounded'],
-  }
-};
+type iconMap = {
+  importName: string
+  name: string
+  theme: 'Outlined' | 'Two tone' | 'Sharp' | 'Rounded' | 'Filled'
+  component: any
+}
+const allIconsMap: Record<string, iconMap> = {};
 const allIcons = Object.keys(mui)
   .sort()
   .map((importName) => {
@@ -61,7 +62,17 @@ const allIcons = Object.keys(mui)
     return icon;
   });
 
+  const StyledSvgIcon = styled(SvgIcon)(({ theme }) => ({
+    boxSizing: 'content-box',
+    cursor: 'pointer',
+    color: theme.palette.onSurfaceVariant.main,
+    borderRadius: theme.shape.borderRadius,
+    '&:focus': {
+      outline: 'none'
+    },
+  }));
 export {
   allIcons,
   allIconsMap,
+  StyledSvgIcon,
 }

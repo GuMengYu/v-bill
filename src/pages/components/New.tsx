@@ -8,15 +8,14 @@ import CloseIcon from "@mui/icons-material/Close";
 import MoreVert from "@mui/icons-material/MoreVert";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
-import { Box, Chip, styled, Tab, Tabs } from "@mui/material";
-import { useState } from "react";
-import { AMOUNTTYPE, Category, INPUTKEY } from "../../types";
+import { Box, Chip, Tab, Tabs } from "@mui/material";
+import { useState, useMemo } from "react";
+import { AMOUNTTYPE, Category } from "../../types";
 import FaceIcon from "@mui/icons-material/Face";
-import { allIconsMap } from '@/utils/icons'
+import { allIconsMap, StyledSvgIcon } from '@/utils/icons'
 import Keyboard from "../../components/Keyboard";
 import { appState } from '@/valtio'
 import { useSnapshot } from 'valtio'
-import SvgIcon from '@mui/material/SvgIcon';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -50,6 +49,58 @@ export default function FullScreenDialog({
   const handleTap = (val: string) => {
     setAmont(val)
   };
+  const [currentCat, setCurrentCat] = useState<Category | null>(null)
+  const currentIcon = useMemo(() => {
+    return {
+      component: currentCat?.icon ? allIconsMap[currentCat.icon].component : allIconsMap.defaultIcon.component,
+      name: currentCat?.name
+    }
+  }, [currentCat])
+
+  function handleCatSelect(cat: Category) {
+    setCurrentCat(cat)
+  }
+  function CatList({cats}: {cats: Category[]}) {
+    return <Box
+      sx={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(4, 1fr)',
+        gridTemplateRows: 'auto',
+        justifyItems: 'center',
+        maxHeight: 'calc(100vh - 440px)',
+        overflowY: 'auto',
+      }}
+    >
+      {
+        cats.map(cat => {
+          return <Cat cat={ cat } key={ cat.id }></Cat>
+        })
+      }
+      
+    </Box>
+  }
+  function Cat({cat}: { cat: Category }) {
+    const icon = cat.icon ? allIconsMap[cat.icon] : allIconsMap.defaultIcon
+    return <Box display="flex"  sx={
+      {
+        flexDirection: 'column',
+        alignItems: 'center',
+        height: 56,
+        // width: 50,
+      }
+    } onClick={ () => {} }>
+      <IconButton>
+        <StyledSvgIcon
+          component={icon.component}
+          title={icon.importName}
+          onClick={handleCatSelect.bind(null, cat)}
+        >
+        </StyledSvgIcon>
+        </IconButton>
+      <Typography variant="body2">{ cat.name }</Typography>
+    </Box>
+  }
+
   return (
     <div>
       <Dialog
@@ -83,7 +134,7 @@ export default function FullScreenDialog({
             </IconButton>
           </Toolbar>
         </AppBar>
-        <Box bgcolor="surface.main" flex={1} px={1} pb={1}>
+        <Box bgcolor="surface.main" flex={1}>
           <Tabs
             variant="fullWidth"
             value={recordType}
@@ -95,12 +146,22 @@ export default function FullScreenDialog({
             <Tab label="收入" value={AMOUNTTYPE.income} />
             <Tab label="转账" value={AMOUNTTYPE.transfer} />
           </Tabs>
-          <Box display="flex" justifyContent="space-between" px={1} py={1}>
+          <Box sx={{
+            display: 'flex',
+            mx: 2,
+            px: 2,
+            py: 1,
+            my:1,
+            bgcolor: 'surfaceVariant.main',
+            borderRadius: 2,
+          }}>
             <Box display="flex" alignItems="center" gap={1} flex={1}>
-              <FaceIcon />
-              <Typography>房租水电</Typography>
+              <StyledSvgIcon component={currentIcon.component}></StyledSvgIcon>
+              <Typography variant="h6" >{ currentIcon.name }</Typography>
             </Box>
+
             <Typography variant="h4" sx={{
+              color: 'error.main',
               textAlign: 'end',
                flex: '2',
                textOverflow: 'ellipsis',
@@ -114,7 +175,8 @@ export default function FullScreenDialog({
           <Box
             sx={{
               position: "absolute",
-              bottom: 16,
+              bottom: 8,
+              padding: 1,
               width: 'calc(100% - 16px)'
             }}
           >
@@ -132,54 +194,4 @@ export default function FullScreenDialog({
       </Dialog>
     </div>
   );
-}
-
-function CatList({cats}: {cats: Category[]}) {
-  return <Box
-    sx={{
-      display: 'grid',
-      gridTemplateColumns: 'repeat(4, 1fr)',
-      gridTemplateRows: 'auto',
-      justifyItems: 'center',
-      maxHeight: 'calc(100vh - 420px)',
-      overflowY: 'auto',
-    }}
-  >
-    {
-      cats.map(cat => {
-        return <Cat cat={ cat } key={ cat.id }></Cat>
-      })
-    }
-    
-  </Box>
-}
-
-const StyledSvgIcon = styled(SvgIcon)(({ theme }) => ({
-  boxSizing: 'content-box',
-  cursor: 'pointer',
-  color: theme.palette.onSurfaceVariant.main,
-  borderRadius: theme.shape.borderRadius,
-  '&:focus': {
-    outline: 'none'
-  },
-}));
-function Cat({cat}: { cat: Category }) {
-  const icon = cat.icon ? allIconsMap[cat.icon] : allIconsMap.defaultIcon
-  return <Box display="flex"  sx={
-    {
-      flexDirection: 'column',
-      alignItems: 'center',
-      height: 56,
-      // width: 50,
-    }
-  } onClick={ () => {} }>
-    <IconButton>
-      <StyledSvgIcon
-        component={icon.component}
-        title={icon.importName}
-      >
-      </StyledSvgIcon>
-      </IconButton>
-    <Typography variant="body2">{ cat.name }</Typography>
-  </Box>
 }
