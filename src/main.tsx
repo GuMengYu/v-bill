@@ -5,8 +5,8 @@ import { Provider } from "react-redux";
 import App from "./App";
 import store from "./store/index";
 import './index.css'
-import { syncCats  } from '@/valtio'
-syncCats()
+import { syncApp  } from '@/valtio'
+// syncApp()
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
