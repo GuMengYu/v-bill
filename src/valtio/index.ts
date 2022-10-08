@@ -1,6 +1,6 @@
-import { getCatList, assetsInfo } from '@/api'
-import { Category, Account } from '@/types';
-import { proxy } from 'valtio'
+import {assetsInfo, getCatList} from '@/api'
+import {Account, Category} from '@/types';
+import {proxy} from 'valtio'
 
 const appState = proxy<{
     cats: Category[];
@@ -187,87 +187,45 @@ const appState = proxy<{
             "updateTime": "2022-09-16T06:50:57.000Z",
             "type": 1
         },
-        {
-            "id": "21",
-            "name": "居家",
-            "isSystem": 1,
-            "icon": null,
-            "createTime": "2022-09-16T06:50:54.000Z",
-            "updateTime": "2022-09-16T06:50:57.000Z",
-            "type": 1
-        },
-        {
-            "id": "22",
-            "name": "投资",
-            "isSystem": 1,
-            "icon": null,
-            "createTime": "2022-09-16T06:50:54.000Z",
-            "updateTime": "2022-09-16T06:50:57.000Z",
-            "type": 1
-        },
-        {
-            "id": "23",
-            "name": "人情",
-            "isSystem": 1,
-            "icon": null,
-            "createTime": "2022-09-16T06:50:54.000Z",
-            "updateTime": "2022-09-16T06:50:57.000Z",
-            "type": 1
-        },
-        {
-            "id": "24",
-            "name": "报销",
-            "isSystem": 1,
-            "icon": null,
-            "createTime": "2022-09-14T06:09:05.000Z",
-            "updateTime": "2022-09-14T06:09:08.000Z",
-            "type": 0
-        },
-        {
-            "id": "25",
-            "name": "投资",
-            "isSystem": 1,
-            "icon": null,
-            "createTime": "2022-09-14T06:09:33.000Z",
-            "updateTime": "2022-09-14T06:09:30.000Z",
-            "type": 0
-        },
-        {
-            "id": "26",
-            "name": "闲置",
-            "isSystem": 1,
-            "icon": null,
-            "createTime": "2022-09-16T06:50:54.000Z",
-            "updateTime": "2022-09-16T06:50:57.000Z",
-            "type": 0
-        },
-        {
-            "id": "27",
-            "name": "牌局",
-            "isSystem": 1,
-            "icon": null,
-            "createTime": "2022-09-16T06:50:54.000Z",
-            "updateTime": "2022-09-16T06:50:57.000Z",
-            "type": 0
-        },
-        {
-            "id": "28",
-            "name": "转入",
-            "isSystem": 1,
-            "icon": null,
-            "createTime": "2022-09-16T06:50:54.000Z",
-            "updateTime": "2022-09-16T06:50:57.000Z",
-            "type": 0
-        },
     ],
-    accounts: []
+    accounts: [
+        {
+            "id": "0654a2cc-2854-4d25-9709-88a81f8b2c54",
+            "name": "招商银行",
+            "balanceMoney": 131212,
+            "type": 1
+        },
+        {
+            "id": "1",
+            "name": "现金",
+            "balanceMoney": 2131.5,
+            "type": 1
+        },
+        {
+            "id": "5b447063-6dcc-4dff-aa92-69dc46fdaed4",
+            "name": "信用卡",
+            "balanceMoney": -450,
+            "type": 2
+        },
+        {
+            "id": "81adb239-94a3-4704-b144-25ce6646ddad",
+            "name": "银行卡",
+            "balanceMoney": 80.82,
+            "type": 1
+        },
+        {
+            "id": "8c90c20b-640a-4b6b-aff0-c852775cde02",
+            "name": "蚂蚁基金",
+            "balanceMoney": 50000,
+            "type": 3
+        }
+    ]
 })
 
 
 export async function syncApp() {
     const { data } = await getCatList()
-    const catlist = data?.cats ?? []
-    appState.cats = catlist
+    appState.cats = data?.cats ?? []
     const { data: assets } = await assetsInfo()
     appState.accounts = assets?.accounts ?? []
 }

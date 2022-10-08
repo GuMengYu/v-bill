@@ -2,9 +2,8 @@ import {Box, Chip, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListIte
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 
-import {useState} from 'react'
 import {DateTimePicker} from '@mui/x-date-pickers/DateTimePicker';
-import FaceIcon from "@mui/icons-material/Face";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import * as React from "react";
 
 export default function DateTimePickerChip({ value, onChange }: {
@@ -20,7 +19,7 @@ export default function DateTimePickerChip({ value, onChange }: {
             value={value}
             onChange={onChange}
             renderInput={(params) => {
-                return <Chip icon={<FaceIcon/>} label={params.inputProps.value} onClick={params.onClick}/>
+                return <Chip icon={<AccessTimeIcon/>} label={params.inputProps?.value} onClick={params.onClick}/>
             }}
         />
     </LocalizationProvider>

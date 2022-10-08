@@ -62,10 +62,10 @@ const allIcons = Object.keys(mui)
     return icon;
   });
 
-  const StyledSvgIcon = styled(SvgIcon)(({ theme }) => ({
+  const StyledSvgIcon = styled(SvgIcon)(({ theme , color}) => ({
     boxSizing: 'content-box',
     cursor: 'pointer',
-    color: theme.palette.onSurfaceVariant.main,
+    color: color,
     borderRadius: theme.shape.borderRadius,
     '&:focus': {
       outline: 'none'

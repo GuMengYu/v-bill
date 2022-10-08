@@ -5,7 +5,8 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import FaceIcon from "@mui/icons-material/Face";
-import {Box, Chip, Drawer, Tab, Tabs} from "@mui/material";
+import CurrencyYenIcon from '@mui/icons-material/CurrencyYen';
+import {Box, Chip, Divider, Drawer, Tab, Tabs} from "@mui/material";
 import {useState, useMemo} from "react";
 import {AMOUNTTYPE, Category} from "@/types";
 import {allIconsMap, StyledSvgIcon} from '@/utils/icons'
@@ -23,10 +24,10 @@ export default function NewBill({open = false, onClose,}: {
     const [recordType, setRecordType] = useState<AMOUNTTYPE>(AMOUNTTYPE.expenses);
 
     const [amount, setAmount] = useState("0.00");
-    const [currentCat, setCurrentCat] = useState<Category | null>(null)
+    const [currentCat, setCurrentCat] = useState<Category | null>(snap.cats[0])
     const [accountsDrawer, setAccountDrawer] = useState(false)
     const [time, setTime] = useState(new Date())
-    const [selectedAccount, setSelectedAccount] = useState(null)
+    const [selectedAccount, setSelectedAccount] = useState(snap.accounts[0])
     const handleTap = (val: string) => {
         setAmount(val)
     };
@@ -41,7 +42,7 @@ export default function NewBill({open = false, onClose,}: {
         setCurrentCat(cat)
     }
 
-    function CatList({cats}: { cats: Category[] }) {
+    function CatList({cats, value}: { cats: Category[], value: string | null | undefined }) {
         return <Box
             sx={{
                 display: 'grid',
@@ -54,14 +55,14 @@ export default function NewBill({open = false, onClose,}: {
         >
             {
                 cats.map(cat => {
-                    return <Cat cat={cat} key={cat.id}></Cat>
+                    return <Cat cat={cat} key={cat.id} activated={cat.icon === value}></Cat>
                 })
             }
 
         </Box>
     }
 
-    function Cat({cat}: { cat: Category }) {
+    function Cat({cat, activated = false}: { cat: Category, activated?: boolean }) {
         const icon = cat.icon ? allIconsMap[cat.icon] : allIconsMap.defaultIcon
         return <Box display="flex" sx={
             {
@@ -71,8 +72,11 @@ export default function NewBill({open = false, onClose,}: {
                 // width: 50,
             }
         }>
-            <IconButton onClick={handleCatSelect.bind(null, cat)}>
+            <IconButton sx={{
+                bgcolor: activated ? 'primaryContainer.main' : 'inherit'
+            }} onClick={handleCatSelect.bind(null, cat)}>
                 <StyledSvgIcon
+                    color={activated ? 'primary' : 'inherit'}
                     component={icon.component}
                     title={icon.importName}
                 >
@@ -129,13 +133,13 @@ export default function NewBill({open = false, onClose,}: {
                     display: 'flex',
                     alignItems: 'center',
                     mx: 2,
-                    my: 1,
+                    mt: 2,
                     borderRadius: 2,
                 }}>
-                    <FaceIcon/>
+                    <CurrencyYenIcon />
                     <Typography variant="h4" sx={{
-                        color: 'error.main',
                         textAlign: 'start',
+                        ml: 1,
                         flex: '2',
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
@@ -143,11 +147,16 @@ export default function NewBill({open = false, onClose,}: {
                         WebkitLineClamp: '1',
                     }}>{amount}</Typography>
                 </Box>
-                <CatList cats={snap.cats}/>
+                <Divider sx={{
+                    mx: 2,
+                    my: 1,
+                }}/>
+                <CatList cats={snap.cats} value={currentCat?.icon}/>
 
                 <Box
                     sx={{
                         padding: 1,
+                        my: 1,
                         width: 'calc(100% - 16px)'
                     }}
                 >
@@ -159,10 +168,10 @@ export default function NewBill({open = false, onClose,}: {
                         <Chip icon={<FaceIcon/>} label={selectedAccount?.name} onClick={() => {
                             setAccountDrawer(true)
                         }}/>
-                        <DateTimePicker value={ time } onChange={ (value) => {
+                        <DateTimePicker value={time} onChange={(value) => {
                             value && setTime(value)
-                        } } />
-                        <Chip icon={<FaceIcon/>} label="备注" />
+                        }}/>
+                        {/*<Chip icon={<MarkChatUnreadIcon/>} label="备注"/>*/}
                     </Box>
                     <Keyboard onChange={handleTap} value={amount}/>
                 </Box>

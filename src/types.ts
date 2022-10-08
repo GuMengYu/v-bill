@@ -45,11 +45,11 @@ export interface Account {
 export interface Category {
   id: string
   name: string
-  icon?: string
+  icon?: string | null
   type: number
-  isSystem?: boolean
-  createTime: number
-  updateTime: number
+  isSystem?: number
+  createTime: string
+  updateTime: string
 }
 
 export enum INPUTKEY {
