@@ -15,7 +15,7 @@ export default function Keyboard({
     decimal: false,
   })
   const [calc, setCalc] = useState(false)
-  function keybordPress(code: INPUTKEY) {
+  function keyboardPress(code: INPUTKEY) {
     if (code === INPUTKEY.dot) {
       state.current.decimal = !state.current.decimal 
     } else if (code === INPUTKEY.del) {
@@ -115,7 +115,7 @@ export default function Keyboard({
           color: textColor,
         }}
         onClick={(e) => {
-          e.preventDefault(); keybordPress(code)
+          e.preventDefault(); keyboardPress(code)
         }
       }
       >

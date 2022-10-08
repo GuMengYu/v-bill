@@ -31,12 +31,6 @@ export default function NewBill({open = false, onClose,}: {
     const handleTap = (val: string) => {
         setAmount(val)
     };
-    const currentIcon = useMemo(() => {
-        return {
-            component: currentCat?.icon ? allIconsMap[currentCat.icon].component : allIconsMap.defaultIcon.component,
-            name: currentCat?.name
-        }
-    }, [currentCat])
 
     function handleCatSelect(cat: Category) {
         setCurrentCat(cat)
@@ -49,13 +43,13 @@ export default function NewBill({open = false, onClose,}: {
                 gridTemplateColumns: 'repeat(6, 1fr)',
                 gridTemplateRows: 'auto',
                 justifyItems: 'center',
-                maxHeight: '112px',
+                maxHeight: '168px',
                 overflowY: 'auto',
             }}
         >
             {
                 cats.map(cat => {
-                    return <Cat cat={cat} key={cat.id} activated={cat.icon === value}></Cat>
+                    return <Cat cat={cat} key={cat.id} activated={cat.id === value}></Cat>
                 })
             }
 
@@ -73,10 +67,13 @@ export default function NewBill({open = false, onClose,}: {
             }
         }>
             <IconButton sx={{
-                bgcolor: activated ? 'primaryContainer.main' : 'inherit'
+                bgcolor: activated ? 'tertiaryContainer.main' : 'inherit',
+                '&:hover': {
+                    bgcolor: activated ? 'tertiaryContainer.main' : 'inherit'
+                }
             }} onClick={handleCatSelect.bind(null, cat)}>
                 <StyledSvgIcon
-                    color={activated ? 'primary' : 'inherit'}
+                    color={activated ? 'tertiary' : 'inherit'}
                     component={icon.component}
                     title={icon.importName}
                 >
@@ -151,7 +148,7 @@ export default function NewBill({open = false, onClose,}: {
                     mx: 2,
                     my: 1,
                 }}/>
-                <CatList cats={snap.cats} value={currentCat?.icon}/>
+                <CatList cats={snap.cats} value={currentCat?.id}/>
 
                 <Box
                     sx={{

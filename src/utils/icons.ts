@@ -7,7 +7,7 @@ import {
   BusinessCenterRounded,
   DirectionsBoatRounded,
   ElderlyWomanRounded,
-  PaymentRounded,
+  DescriptionRounded,
 } from '@mui/icons-material'
 import { SvgIcon } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -20,7 +20,7 @@ const mui: Record<string, unknown> = {
   BusinessCenterRounded,
   DirectionsBoatRounded,
   ElderlyWomanRounded,
-  defaultIcon: PaymentRounded
+  defaultIcon: DescriptionRounded
 }
 type iconMap = {
   importName: string
