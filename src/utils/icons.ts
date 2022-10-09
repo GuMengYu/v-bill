@@ -32,7 +32,7 @@ const allIconsMap: Record<string, iconMap> = {};
 const allIcons = Object.keys(mui)
   .sort()
   .map((importName) => {
-    let theme;
+    let theme: iconMap['theme'];
     if (importName.indexOf('Outlined') !== -1) {
       theme = 'Outlined';
     } else if (importName.indexOf('TwoTone') !== -1) {

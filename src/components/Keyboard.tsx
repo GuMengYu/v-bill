@@ -1,162 +1,177 @@
-import { Button, Box } from "@mui/material";
-import { useRef, useState } from "react";
-import { INPUTKEY } from "../types";
-import { Backspace as BackspaceIcon } from "@mui/icons-material";
+import {Box, Button} from "@mui/material";
+import {INPUT_KEY} from "@/types";
+import {Backspace as BackspaceIcon} from "@mui/icons-material";
 import camelCase from 'camelcase'
+import React from "react";
 
 export default function Keyboard({
-  onChange,
-  value,
-}: {
-  onChange: (val: string) => void;
-  value: string;
+                                     onChange,
+                                     onTap,
+                                     value,
+                                 }: {
+    onChange: (val: string) => void;
+    onTap: (code: INPUT_KEY) => void;
+    value: string;
 }) {
-  const state = useRef({
-    decimal: false,
-  })
-  const [calc, setCalc] = useState(false)
-  function keyboardPress(code: INPUTKEY) {
-    if (code === INPUTKEY.dot) {
-      state.current.decimal = !state.current.decimal 
-    } else if (code === INPUTKEY.del) {
-      let [int = "0", dec = "00"] = value?.split(".") ?? [];
-      let [f = "0", s = "0"] = dec.split("") ?? [];
-      if (s !== "0") {
-        s = "0";
-      } else if (f !== "0") {
-        f = "0";
-        state.current.decimal = false
-      } else if (int !== "0") {
-        let temp = int.split("");
-        temp.pop();
-        int = temp.length ? temp.join("") : "0";
-      }
-      onChange(`${int}.${f}${s}`);
-    } else if (code === INPUTKEY.plus) {
-      // if (calc) {
-      //   const res = calcExpression(value)
-      //   onChange(`${res}+`);
-      // } else {
-      //   setCalc(true)
-      // }
-      // onChange(`${value}${code}`);
+    function keyboardPress(code: INPUT_KEY) {
+        const next = (code = '') => {
+            const matcher = expressionMatch(value)
+            if (matcher) {
+                // not valid express
+                if ((matcher.index ?? 0) + 1 === value.length) {
+                    return
+                } else {
+                    value = calcExpression(value)
+                }
+            }
+            onChange(`${value}${code}`);
+        }
+        switch (code) {
+            case INPUT_KEY.dot: {
+                const stack = value.split(/[+-]/).pop()
+                if (stack === '') {
+                    onChange(`${value}0.`);
+                } else if (stack && stack.match(/\./g)) {
+                    return
+                    // onChange(`${value}${code}`);
+                } else {
+                    onChange(`${value}${code}`);
+                }
+                break
+            }
+            case INPUT_KEY.del: {
+                const str = value.substring(0, value.length - 1)
+                onChange(str || '0');
+                break
+            }
+            case INPUT_KEY.eq: {
+                next()
+                break
+            }
+            case INPUT_KEY.confirm: {
+                break
+            }
+            case INPUT_KEY.minus:
+            case INPUT_KEY.plus: {
+                next(code)
+                break
+            }
+            default: {
+                const res = resolveValue(value, code as number)
+                onChange(res);
+                break
+            }
+        }
+        onTap(code)
+    }
 
-    } else if (code === INPUTKEY.minus) {
-      // if (calc) {
-      //   const res = calcExpression(value)
-      //   onChange(`${res}-`);
-      // } else {
-      //   setCalc(true)
-      //   onChange(`${value}${code}`);
-      // }
-    } else if (code === INPUTKEY.confirm) {
-      // const res = calcExpression(value)
-      // onChange(res)
-      // setCalc(false)
-    } else {
-      const res = resolveValue(value, code as string, state.current.decimal)
-      onChange(res);
-    }
-  }
-  function resolveValue(prev = '0:00', current = '0', resovleDecimal = false) {
-    let [int = "0", dec = "00"] = prev?.split(".") ?? [];
-      if (resovleDecimal) {
-        let [f = "0", s = "0"] = dec.split("") ?? [];
-        if (f == "0") {
-          f = current as string;
-        } else if (s == "0") {
-          s = current as string;
+    function resolveValue(prev = '0', current = 0): string {
+        if (prev === '0') {
+            prev = ''
         }
-        dec = `${f}${s}`;
-      } else {
-        if (int == "0") {
-          int = current as string;
-        } else {
-          int = `${int}${current}`;
+        const matcher = expressionMatch(prev)
+        if (matcher) {
+            const stack = prev.split(/[+-]/).pop()
+            const res = resolveValue(stack, current)
+            const index = prev.match(/[+-]/)?.index ?? prev.length
+            return `${prev.substring(0, index + 1)}${res}`
         }
-      }
-      return `${int}.${dec}`
-  }
-  function calcExpression(expression: string): string {
-    try {
-      let res = Function(`"use strict";return (${expression})`)()
-      if (res < 0) {
-        res = 0
-      }
-      return Number(res).toFixed(2)
-    } catch(e) {
-      console.error(e)
-      return '0.00'
+        const decimal = `${prev}`.match(/\./g)
+        if (decimal && decimal.length === 1) {
+            const [, dec] = `${prev}`.split('.') ?? []
+            if (dec.length >= 2) {
+                return prev
+            }
+        }
+        return `${prev}${current}`
     }
-  }
-  const InputButton = ({
-    children,
-    code = 0,
-    gridColumn,
-    color = 'surfaceVariant',
-  }: {
-    children: React.ReactNode;
-    code?: INPUTKEY;
-    gridColumn?: string;
-    color?: string
-  }) => {
-    const textColor = `${camelCase(`on ${color}`)}.main`
+
+    function expressionMatch(str: string) {
+        return str.match(/[+-]/)
+    }
+
+    function calcExpression(expression: string): string {
+        try {
+            let res = Function(`"use strict";return (${expression})`)() as number
+            if (res < 0) {
+                res = 0
+            }
+            return Number.isSafeInteger(res) ? `${res}` : Number(res).toFixed(2)
+        } catch (e) {
+            console.error(e)
+            return '0'
+        }
+    }
+
+    const InputButton = ({
+                             children,
+                             code = 0,
+                             gridColumn,
+                             color = 'surfaceVariant',
+                         }: {
+        children: React.ReactNode;
+        code?: INPUT_KEY;
+        gridColumn?: string;
+        color?: string
+    }) => {
+        const textColor = `${camelCase(`on ${color}`)}.main`
+        return (
+            <Button
+                color={color as 'primary'}
+                variant="contained"
+                size="large"
+                sx={{
+                    margin: '2px',
+                    borderRadius: 2,
+                    gridColumn: gridColumn,
+                    fontSize: '1rem',
+                    boxShadow: 'none',
+                    color: textColor,
+                }}
+                onClick={(e) => {
+                    e.preventDefault();
+                    keyboardPress(code)
+                }
+                }
+            >
+                {children}
+            </Button>
+        );
+    }
     return (
-      <Button
-        color={color}
-        variant="contained"
-        size="large"
-        sx={{
-          margin: '2px',
-          borderRadius: 2,
-          gridColumn: gridColumn,
-          fontSize: '1rem',
-          boxShadow: 'none',
-          color: textColor,
-        }}
-        onClick={(e) => {
-          e.preventDefault(); keyboardPress(code)
-        }
-      }
-      >
-        {children}
-      </Button>
-    );
-  }
-  return (
-    <Box
-      sx={{
-        display: "grid",
-        gridTemplateColumns: "repeat(4, 1fr)",
-      }}
-    >
-      <InputButton code={INPUTKEY.seven}>7</InputButton>
-      <InputButton code={INPUTKEY.eight}>8</InputButton>
-      <InputButton code={INPUTKEY.nine}>9</InputButton>
-      <InputButton code={INPUTKEY.plus} color="tertiaryContainer">+</InputButton>
+        <Box
+            sx={{
+                display: "grid",
+                gridTemplateColumns: "repeat(4, 1fr)",
+            }}
+        >
+            <InputButton code={INPUT_KEY.seven}>7</InputButton>
+            <InputButton code={INPUT_KEY.eight}>8</InputButton>
+            <InputButton code={INPUT_KEY.nine}>9</InputButton>
+            <InputButton code={INPUT_KEY.plus} color="tertiaryContainer">+</InputButton>
 
-      
-      <InputButton code={INPUTKEY.four}>4</InputButton>
-      <InputButton code={INPUTKEY.five}>5</InputButton>
-      <InputButton code={INPUTKEY.six}>6</InputButton>
-      <InputButton code={INPUTKEY.minus} color="tertiaryContainer">-</InputButton>
-    
-      <InputButton code={INPUTKEY.one}>1</InputButton>
-      <InputButton code={INPUTKEY.two}>2</InputButton>
-      <InputButton code={INPUTKEY.three}>3</InputButton>
-      <InputButton code={INPUTKEY.eq} color="tertiaryContainer">
-       =
-      </InputButton>
-      <InputButton code={INPUTKEY.dot}>
-       .
-      </InputButton>
-      <InputButton code={INPUTKEY.zero}>
-        0
-      </InputButton>
-      <InputButton code={INPUTKEY.del}>
-        <BackspaceIcon sx={{ fontSize: "1rem" }} />
-      </InputButton>
-      <InputButton code={INPUTKEY.confirm} color="primaryContainer"> {calc ? '=' : '完成'}</InputButton>
-    </Box>
-  );
+
+            <InputButton code={INPUT_KEY.four}>4</InputButton>
+            <InputButton code={INPUT_KEY.five}>5</InputButton>
+            <InputButton code={INPUT_KEY.six}>6</InputButton>
+            <InputButton code={INPUT_KEY.minus} color="tertiaryContainer">-</InputButton>
+
+            <InputButton code={INPUT_KEY.one}>1</InputButton>
+            <InputButton code={INPUT_KEY.two}>2</InputButton>
+            <InputButton code={INPUT_KEY.three}>3</InputButton>
+            <InputButton code={INPUT_KEY.eq} color="tertiaryContainer">
+                =
+            </InputButton>
+            <InputButton code={INPUT_KEY.dot}>
+                .
+            </InputButton>
+            <InputButton code={INPUT_KEY.zero}>
+                0
+            </InputButton>
+            <InputButton code={INPUT_KEY.del}>
+                <BackspaceIcon sx={{fontSize: "1rem"}}/>
+            </InputButton>
+            <InputButton code={INPUT_KEY.confirm} color="primaryContainer"> 完成</InputButton>
+        </Box>
+    );
 }

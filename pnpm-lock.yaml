@@ -24,6 +24,7 @@ specifiers:
   eslint-plugin-react-hooks: ^4.6.0
   framer-motion: ^6.5.1
   lodash-es: ^4.17.21
+  notistack: ^2.0.5
   react: ^18.0.0
   react-apexcharts: ^1.4.0
   react-dom: ^18.0.0
@@ -55,6 +56,7 @@ dependencies:
   eslint-plugin-react-hooks: 4.6.0_eslint@8.21.0
   framer-motion: 6.5.1_biqbaboplfbrettd7655fr4n2y
   lodash-es: 4.17.21
+  notistack: 2.0.5_i4bnlkmgttyogkakwmilznfjiq
   react: 18.2.0
   react-apexcharts: 1.4.0_duwsp7oksndcqyymyvndtwsgoa
   react-dom: 18.2.0_react@18.2.0
@@ -3888,6 +3890,29 @@ packages:
 
   /node-releases/2.0.6:
     resolution: {integrity: sha512-PiVXnNuFm5+iYkLBNeq5211hvO38y63T0i2KKh2KnUs3RpzJ+JtODFjkD8yjLwnDkTYF1eKXheUwdssR+NRZdg==}
+    dev: false
+
+  /notistack/2.0.5_i4bnlkmgttyogkakwmilznfjiq:
+    resolution: {integrity: sha512-Ig2T1Muqkc1PaSQcEDrK7diKv6cBxw02Iq6uv074ySfgq524TV5lK41diAb6OSsaiWfp3aRt+T3+0MF8m2EcJQ==}
+    peerDependencies:
+      '@emotion/react': ^11.4.1
+      '@emotion/styled': ^11.3.0
+      '@mui/material': ^5.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    peerDependenciesMeta:
+      '@emotion/react':
+        optional: true
+      '@emotion/styled':
+        optional: true
+    dependencies:
+      '@emotion/react': 11.9.3_7eu627umq2cbnjxmysy5yb5jqq
+      '@emotion/styled': 11.9.3_qbwmrvb6ojitbfrbjtglmejmbm
+      '@mui/material': 5.8.5_h2u6a3oivtyocvjxeke7xcvlfa
+      clsx: 1.2.1
+      hoist-non-react-statics: 3.3.2
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /object-assign/4.1.1:

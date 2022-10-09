@@ -1,42 +1,74 @@
 import * as React from "react";
+import {useMemo, useState} from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import FaceIcon from "@mui/icons-material/Face";
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import CurrencyYenIcon from '@mui/icons-material/CurrencyYen';
 import {Box, Chip, Divider, Drawer, Tab, Tabs} from "@mui/material";
-import {useState, useMemo} from "react";
-import {AMOUNTTYPE, Category} from "@/types";
+import {AMOUNTTYPE, Category, INPUT_KEY} from "@/types";
 import {allIconsMap, StyledSvgIcon} from '@/utils/icons'
 import Keyboard from "../../components/Keyboard";
 import {appState} from '@/valtio'
 import {useSnapshot} from 'valtio'
 import AccountsDrawer from './AccountsDrawer'
 import DateTimePicker from "@/pages/components/DateTimePicker";
-
-export default function NewBill({open = false, onClose,}: {
+import {NavLink} from "react-router-dom";
+import { useSnackbar } from 'notistack';
+import { createFlow } from "@/api";
+export default function NewBill({open = false, onClose, onReload}: {
     open: boolean;
     onClose: () => void;
+    onReload: () => void;
 }) {
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar()
     const snap = useSnapshot(appState)
     const [recordType, setRecordType] = useState<AMOUNTTYPE>(AMOUNTTYPE.expenses);
 
-    const [amount, setAmount] = useState("0.00");
-    const [currentCat, setCurrentCat] = useState<Category | null>(snap.cats[0])
+    const [amount, setAmount] = useState<string>('0');
+    const [currentCat, setCurrentCat] = useState<Category | null>(null)
     const [accountsDrawer, setAccountDrawer] = useState(false)
     const [time, setTime] = useState(new Date())
     const [selectedAccount, setSelectedAccount] = useState(snap.accounts[0])
-    const handleTap = (val: string) => {
+    const categories = useMemo(() => {
+        return snap.category[recordType] ?? []
+    }, [recordType, snap.category])
+    const onAmountChange = (val: string) => {
+        console.log(val)
         setAmount(val)
     };
+    const onTap = (keycode: INPUT_KEY) => {
+        console.log(keycode)
+        if (keycode === INPUT_KEY.confirm) {
+            if (!currentCat) {
+                enqueueSnackbar('选择分类', { autoHideDuration: 1000, anchorOrigin: { vertical: 'top', horizontal: 'center' } })
+            } else {
+                handleSave()
+            }
+            // todo handle validate and save
+        }
+    }
 
+    async function handleSave() {
+        const data = {
+            amount: parseFloat(amount),
+            catId: currentCat!.id,
+            recType: recordType,
+            accountId: selectedAccount.id,
+            comment: '', // todo comment
+        }
+        await createFlow(data)
+        onReload()
+        onClose()
+    }
     function handleCatSelect(cat: Category) {
         setCurrentCat(cat)
     }
 
-    function CatList({cats, value}: { cats: Category[], value: string | null | undefined }) {
+    function CatList({cats, value}: { cats: readonly Category[], value: string | null | undefined }) {
         return <Box
             sx={{
                 display: 'grid',
@@ -52,6 +84,20 @@ export default function NewBill({open = false, onClose,}: {
                     return <Cat cat={cat} key={cat.id} activated={cat.id === value}></Cat>
                 })
             }
+            <Box
+                display="flex"
+                flexDirection="column"
+            >
+                <IconButton>
+                    <MoreHorizIcon></MoreHorizIcon>
+                </IconButton>
+                <Typography variant="caption" sx={{
+                    '& a': {
+                        textDecoration: 'none',
+                        color: 'tertiary.main'
+                    }
+                }}><NavLink to="/cats">分类管理&gt;</NavLink></Typography>
+            </Box>
 
         </Box>
     }
@@ -73,7 +119,7 @@ export default function NewBill({open = false, onClose,}: {
                 }
             }} onClick={handleCatSelect.bind(null, cat)}>
                 <StyledSvgIcon
-                    color={activated ? 'tertiary' : 'inherit'}
+                    color={(activated ? 'tertiary' : 'inherit') as 'primary'}
                     component={icon.component}
                     title={icon.importName}
                 >
@@ -133,7 +179,7 @@ export default function NewBill({open = false, onClose,}: {
                     mt: 2,
                     borderRadius: 2,
                 }}>
-                    <CurrencyYenIcon />
+                    <CurrencyYenIcon/>
                     <Typography variant="h4" sx={{
                         textAlign: 'start',
                         ml: 1,
@@ -148,7 +194,7 @@ export default function NewBill({open = false, onClose,}: {
                     mx: 2,
                     my: 1,
                 }}/>
-                <CatList cats={snap.cats} value={currentCat?.id}/>
+                <CatList cats={categories} value={currentCat?.id}/>
 
                 <Box
                     sx={{
@@ -170,7 +216,7 @@ export default function NewBill({open = false, onClose,}: {
                         }}/>
                         {/*<Chip icon={<MarkChatUnreadIcon/>} label="备注"/>*/}
                     </Box>
-                    <Keyboard onChange={handleTap} value={amount}/>
+                    <Keyboard onChange={onAmountChange} value={amount} onTap={onTap}/>
                 </Box>
             </Box>
             <AccountsDrawer open={accountsDrawer} onClose={() => setAccountDrawer(false)}

@@ -52,7 +52,7 @@ export interface Category {
   updateTime: string
 }
 
-export enum INPUTKEY {
+export enum INPUT_KEY {
   one = 1,
   two = 2,
   three = 3,

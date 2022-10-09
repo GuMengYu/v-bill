@@ -10,7 +10,7 @@ import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import { Box, Tab, Tabs } from "@mui/material";
 import { useState } from "react";
-import { AMOUNTTYPE, INPUTKEY } from "../../types";
+import { AMOUNTTYPE, INPUT_KEY } from "../../types";
 import BackspaceIcon from "@mui/icons-material/Backspace";
 import Keyboard from "../../components/Keyboard";
 const Transition = React.forwardRef(function Transition(

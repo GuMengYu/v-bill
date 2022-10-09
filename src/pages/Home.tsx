@@ -78,6 +78,11 @@ export default function Home() {
   const close = () => {
     setOpen(false)
   }
+  const onReload = () => {
+    flowList().then(res => {
+      setList(res.data.flows)
+    })
+  }
   
   useEffect(() => {
     flowList().then(res => {
@@ -169,7 +174,7 @@ export default function Home() {
             <AddIcon></AddIcon>
           </Fab>
         </Zoom>
-        <NewDialog open={open} onClose={close} />
+        <NewDialog open={open} onClose={close} onReload={onReload} />
       </div>
     </PageTransition>
   );

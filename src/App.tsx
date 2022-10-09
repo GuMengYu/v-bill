@@ -7,23 +7,25 @@ import type { ThemeOptions } from '@mui/material'
 import Themes from './plugins/themes'
 import useMediaQuery from '@mui/material/useMediaQuery';
 import ReloadPrompt from '@/components/ReloadPrompt'
+import { SnackbarProvider } from 'notistack';
 
 function App() {
-  // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const theme = useMemo(() => {
-    return createTheme(getDesignTokens(false))
+    return createTheme(getDesignTokens(prefersDarkMode))
   }, [])
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{
-        bgcolor: theme.palette.surface.main
-      }}>
-        {/* <Header /> */}
-        <Main />
-        <Nav />
-      </Box>
-      <ReloadPrompt />
-      
+      <SnackbarProvider>
+        <Box sx={{
+          bgcolor: theme.palette.surface.main
+        }}>
+          {/* <Header /> */}
+          <Main />
+          <Nav />
+        </Box>
+        <ReloadPrompt />
+      </SnackbarProvider>
     </ThemeProvider>
   );
 }
