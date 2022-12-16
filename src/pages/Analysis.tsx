@@ -1,8 +1,8 @@
-import PageTransition from "../components/PageTransition";
-import Chart from "react-apexcharts";
-import { useState } from "react";
-import { ApexOptions } from "apexcharts";
-import { useTheme } from "@mui/material";
+import PageTransition from '../components/PageTransition'
+import Chart from 'react-apexcharts'
+import { useState } from 'react'
+import { ApexOptions } from 'apexcharts'
+import { useTheme } from '@mui/material'
 
 export default function Analysis() {
   const theme = useTheme()
@@ -25,7 +25,7 @@ export default function Analysis() {
     },
     stroke: {
       width: 3,
-      curve: "smooth",
+      curve: 'smooth',
     },
     legend: {
       show: false,
@@ -38,14 +38,14 @@ export default function Analysis() {
         show: false,
       },
     },
-  });
+  })
 
   const [series, setSeries] = useState([
     {
-      name: "s",
+      name: 's',
       data: [23, 23.3, 234, 67, 110, 110],
     },
-  ]);
+  ])
 
   return (
     <PageTransition>
@@ -70,5 +70,5 @@ export default function Analysis() {
         /> */}
       </div>
     </PageTransition>
-  );
+  )
 }

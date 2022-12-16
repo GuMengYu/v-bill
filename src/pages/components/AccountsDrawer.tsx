@@ -1,19 +1,28 @@
-import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-import { appState } from "@/valtio";
-import { useSnapshot } from "valtio";
-import { Account } from "@/types";
-import FaceIcon from "@mui/icons-material/Face";
+import {
+  Box,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from '@mui/material'
+import { appState } from '@/valtio'
+import { useSnapshot } from 'valtio'
+import { Account } from '@/types'
+import FaceIcon from '@mui/icons-material/Face'
 
-export default function AccountDrawer(
-  { open = false, onClose, onSelect }:
-  {
-    open: boolean,
-    onClose?: () => void,
-    onSelect?: (account: Account) => void
-  }
-  ) {
+export default function AccountDrawer({
+  open = false,
+  onClose,
+  onSelect,
+}: {
+  open: boolean
+  onClose?: () => void
+  onSelect?: (account: Account) => void
+}) {
   const appSnap = useSnapshot(appState)
-  
+
   function handleSelect(account: Account) {
     onSelect && onSelect(account)
     onClose && onClose()
@@ -21,15 +30,19 @@ export default function AccountDrawer(
   const list = () => (
     <Box
       sx={{ width: 'auto' }}
-      role="presentation"
+      role='presentation'
       // onClick={toggleDrawer(false)}
       // onKeyDown={toggleDrawer(false)}
     >
       <List>
         {appSnap.accounts.map((account, index) => (
-          <ListItem key={account.id} disablePadding onClick={() => {
-            handleSelect(account)
-          }}>
+          <ListItem
+            key={account.id}
+            disablePadding
+            onClick={() => {
+              handleSelect(account)
+            }}
+          >
             <ListItemButton>
               <ListItemIcon>
                 <FaceIcon />
@@ -40,14 +53,11 @@ export default function AccountDrawer(
         ))}
       </List>
     </Box>
-  );
+  )
 
-  return <Drawer
-        anchor="bottom"
-        open={open}
-        onClose={ onClose }
-      >
-      { list() }
+  return (
+    <Drawer anchor='bottom' open={open} onClose={onClose}>
+      {list()}
     </Drawer>
+  )
 }
-

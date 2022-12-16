@@ -1,19 +1,12 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-import { Provider } from "react-redux";
-import App from "./App";
-import store from "./store/index";
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { RouterProvider } from 'react-router-dom'
+import router from './router'
 import './index.css'
-import { syncApp  } from '@/valtio'
-// syncApp()
-ReactDOM.createRoot(document.getElementById("root")!).render(
+import { syncApp } from '@/valtio'
+syncApp()
+ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Provider store={store}>
-        <App />
-
-      </Provider>
-    </BrowserRouter>
+    <RouterProvider router={router} />
   </React.StrictMode>
-);
+)

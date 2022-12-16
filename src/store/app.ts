@@ -1,21 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit'
 
 const appSlice = createSlice({
-    name: 'app',
+  name: 'app',
 
-    initialState: {
-        rail: false,
-    },
+  initialState: {
+    rail: false,
+  },
 
-    reducers: {
-        setRail: (state, action) => {
-            state.rail = action.payload;
-        },
+  reducers: {
+    setRail: (state, action) => {
+      state.rail = action.payload
     },
+  },
 })
 
-export const {
-    setRail,
-} = appSlice.actions
+export const { setRail } = appSlice.actions
 
 export default appSlice.reducer

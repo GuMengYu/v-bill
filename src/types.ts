@@ -7,22 +7,7 @@ export enum AMOUNTTYPE {
 export enum AccountTypes {
   credit = 2,
   saving = 1,
-  investment = 3
-}
-
-export interface Stream {
-  id: string,
-  type: AMOUNTTYPE
-  classificationId?: string
-  classification?: string
-  amount: number
-  createtime?: string
-  accoutId?: string
-  accountText?: string
-  updatetime?: string
-  remark?: string
-  creator?: string
-  creatorId?: string
+  investment = 3,
 }
 
 export interface Flow {
@@ -31,16 +16,17 @@ export interface Flow {
   category: Category
   comments: string
   account: Account
-  createTime: number
-  updateTime: number
+  createTime: string
+  updateTime: string
   recType: number
-  amount: number  
+  amount: number
 }
 export interface Account {
   id: string
   name: string
   balanceMoney: number
   type: AccountTypes
+  icon: string
 }
 export interface Category {
   id: string
@@ -68,5 +54,5 @@ export enum INPUT_KEY {
   plus = '+',
   minus = '-',
   confirm = 'onfirm',
-  eq = '='
+  eq = '=',
 }

@@ -9,8 +9,8 @@ import {
   ElderlyWomanRounded,
   DescriptionRounded,
 } from '@mui/icons-material'
-import { SvgIcon } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { SvgIcon } from '@mui/material'
+import { styled } from '@mui/material/styles'
 const mui: Record<string, unknown> = {
   AcUnitRounded,
   AccountBalanceRounded,
@@ -20,7 +20,7 @@ const mui: Record<string, unknown> = {
   BusinessCenterRounded,
   DirectionsBoatRounded,
   ElderlyWomanRounded,
-  defaultIcon: DescriptionRounded
+  defaultIcon: DescriptionRounded,
 }
 type iconMap = {
   importName: string
@@ -28,24 +28,24 @@ type iconMap = {
   theme: 'Outlined' | 'Two tone' | 'Sharp' | 'Rounded' | 'Filled'
   component: any
 }
-const allIconsMap: Record<string, iconMap> = {};
+const allIconsMap: Record<string, iconMap> = {}
 const allIcons = Object.keys(mui)
   .sort()
-  .map((importName) => {
-    let theme: iconMap['theme'];
+  .map(importName => {
+    let theme: iconMap['theme']
     if (importName.indexOf('Outlined') !== -1) {
-      theme = 'Outlined';
+      theme = 'Outlined'
     } else if (importName.indexOf('TwoTone') !== -1) {
-      theme = 'Two tone';
+      theme = 'Two tone'
     } else if (importName.indexOf('Rounded') !== -1) {
-      theme = 'Rounded';
+      theme = 'Rounded'
     } else if (importName.indexOf('Sharp') !== -1) {
-      theme = 'Sharp';
+      theme = 'Sharp'
     } else {
-      theme = 'Filled';
+      theme = 'Filled'
     }
 
-    const name = importName.replace(/(Outlined|TwoTone|Rounded|Sharp)$/, '');
+    const name = importName.replace(/(Outlined|TwoTone|Rounded|Sharp)$/, '')
     // let searchable = name;
     // if (synonyms[searchable]) {
     //   searchable += ` ${synonyms[searchable]}`;
@@ -57,22 +57,18 @@ const allIcons = Object.keys(mui)
       name,
       theme,
       component: mui[importName],
-    };
-    allIconsMap[importName] = icon;
-    return icon;
-  });
+    }
+    allIconsMap[importName] = icon
+    return icon
+  })
 
-  const StyledSvgIcon = styled(SvgIcon)(({ theme , color}) => ({
-    boxSizing: 'content-box',
-    cursor: 'pointer',
-    color: color,
-    borderRadius: theme.shape.borderRadius,
-    '&:focus': {
-      outline: 'none'
-    },
-  }));
-export {
-  allIcons,
-  allIconsMap,
-  StyledSvgIcon,
-}
+const StyledSvgIcon = styled(SvgIcon)(({ theme, color }) => ({
+  boxSizing: 'content-box',
+  cursor: 'pointer',
+  color: color,
+  borderRadius: theme.shape.borderRadius,
+  '&:focus': {
+    outline: 'none',
+  },
+}))
+export { allIcons, allIconsMap, StyledSvgIcon }

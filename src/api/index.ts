@@ -2,20 +2,35 @@ import { Account, Category, Flow } from '@/types'
 import { request, requestPost } from '@/utils/fetch'
 
 interface flowModel {
-  catId: Category["id"],
-  amount: number,
-  recType: number,
-  accountId: Account['id'],
+  catId: Category['id']
+  amount: number
+  recType: number
+  accountId: Account['id']
   comment?: string
 }
 export function createFlow(data: flowModel) {
   return requestPost<{
-    code:  number,
+    code: number
   }>('/flows', data)
+}
+
+export function fetchFlow(id: string) {
+  return request<{
+    code: number
+    data: {
+      account: Account
+      category: Category
+      amount: number
+      comment: string
+      creatTime: string
+      updateTime: string
+      id: string
+    }
+  }>(`/flows/${id}`)
 }
 export function flowList() {
   return request<{
-    code:  number,
+    code: number
     data: {
       flows: Flow[]
     }
@@ -38,7 +53,7 @@ export function assetsInfo() {
 
 export function getCatList() {
   return request<{
-    code:  number,
+    code: number
     data: {
       cats: Category[]
     }

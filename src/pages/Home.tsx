@@ -1,34 +1,24 @@
-import Chart from "react-apexcharts";
-import { AMOUNTTYPE, Stream } from "../types";
+import Chart from 'react-apexcharts'
+import { Flow } from '@/types'
 
-import {
-  Avatar,
-  Box,
-  Card,
-  Fab,
-  IconButton,
-  Menu,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import Zoom from "@mui/material/Zoom";
-import AddIcon from "@mui/icons-material/Add";
-import { useTheme } from "@mui/material/styles";
-import StreamList from "../components/StreamList";
-import { useEffect, useState } from "react";
-import { ApexOptions } from "apexcharts";
-import PageTransition from "../components/PageTransition";
-import NewDialog from "./components/New";
-import Welcome from "./components/Welcome";
-import Header from "@/components/layout/Header";
-import { flowList } from "@/api";
+import { Box, Card, Fab, Typography } from '@mui/material'
+import Zoom from '@mui/material/Zoom'
+import AddIcon from '@mui/icons-material/Add'
+import { useTheme } from '@mui/material/styles'
+import StreamList from '../components/StreamList'
+import { useEffect, useState } from 'react'
+import { ApexOptions } from 'apexcharts'
+import PageTransition from '../components/PageTransition'
+import NewDialog from './components/New'
+import Header from '@/components/layout/Header'
+import { flowList } from '@/api'
 
 export default function Home() {
-  const theme = useTheme();
+  const theme = useTheme()
   const transitionDuration = {
     enter: theme.transitions.duration.enteringScreen,
     exit: theme.transitions.duration.leavingScreen,
-  };
+  }
 
   const [options] = useState<ApexOptions>({
     colors: [theme.palette.primary.main],
@@ -49,7 +39,7 @@ export default function Home() {
     },
     stroke: {
       width: 3,
-      curve: "smooth",
+      curve: 'smooth',
     },
     legend: {
       show: false,
@@ -62,16 +52,16 @@ export default function Home() {
         show: false,
       },
     },
-  });
+  })
 
   const [series, setSeries] = useState([
     {
-      name: "series-1",
+      name: 'series-1',
       data: [1987, 23.3, 234, 67, 110, 110],
     },
-  ]);
+  ])
 
-  const [list, setList] = useState<Stream[]>([]);
+  const [list, setList] = useState<Flow[]>([])
 
   const [open, setOpen] = useState(false)
 
@@ -83,24 +73,24 @@ export default function Home() {
       setList(res.data.flows)
     })
   }
-  
+
   useEffect(() => {
     flowList().then(res => {
       setList(res.data.flows)
     })
   }, [])
-                                                                                                              
+
   return (
     <PageTransition>
       <div>
-        <Header title="交易" height={64}></Header>
+        <Header title='交易' height={64}></Header>
         <Box py={3}>
           <Card
             sx={{
               bgcolor: theme.palette.surfaceVariant.main,
               color: theme.palette.onSurfaceVariant.main,
               borderRadius: 6,
-              display: "flex",
+              display: 'flex',
               padding: 3,
               marginBottom: 2,
             }}
@@ -108,28 +98,28 @@ export default function Home() {
           >
             <Box
               sx={{
-                position: "relative",
+                position: 'relative',
               }}
-              flex="1"
+              flex='1'
             >
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant='body2' color='text.secondary'>
                 本月预算结余
               </Typography>
 
               <Typography
-                variant="h5"
+                variant='h5'
                 sx={{ fontWeight: 700 }}
-                color="text.secondary"
+                color='text.secondary'
                 mt={1}
               >
                 $2123
               </Typography>
-              <Box mt={1} display="flex" alignItems="center" gap="4px">
-                <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                  {" "}
+              <Box mt={1} display='flex' alignItems='center' gap='4px'>
+                <Typography variant='body2' sx={{ fontWeight: 600 }}>
+                  {' '}
                   +2.6%
                 </Typography>
-                <Typography variant="body2">than last month</Typography>
+                <Typography variant='body2'>than last month</Typography>
               </Box>
               {/* <LinearProgress
               variant="determinate"
@@ -140,8 +130,8 @@ export default function Home() {
             <Chart
               options={options}
               series={series}
-              type="line"
-              width="100"
+              type='line'
+              width='100'
               height={80}
             />
           </Card>
@@ -158,15 +148,15 @@ export default function Home() {
           unmountOnExit
         >
           <Fab
-            size="medium"
+            size='medium'
             sx={{
-              position: "fixed",
+              position: 'fixed',
               bottom: 64,
               right: 24,
               borderRadius: 4,
             }}
-            aria-label="new"
-            color="primaryContainer"
+            aria-label='new'
+            color={'primaryContainer' as 'primary'}
             onClick={() => {
               setOpen(true)
             }}
@@ -177,5 +167,5 @@ export default function Home() {
         <NewDialog open={open} onClose={close} onReload={onReload} />
       </div>
     </PageTransition>
-  );
+  )
 }

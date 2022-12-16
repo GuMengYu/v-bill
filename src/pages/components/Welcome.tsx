@@ -1,6 +1,13 @@
-import { Avatar, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {
+  Avatar,
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Typography,
+} from '@mui/material'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function Welcome() {
   const navigate = useNavigate()
@@ -13,36 +20,34 @@ export default function Welcome() {
     setAnchorEl(null)
   }
   function handleNav(target: string) {
-    switch(target) {
-      case 'setting': navigate('../settings'); break;
+    switch (target) {
+      case 'setting':
+        navigate('../settings')
+        break
     }
     handleClose()
   }
   return (
     <Toolbar disableGutters>
       <Typography
-        variant="h5"
+        variant='h5'
         noWrap
-        color="onSurface.main"
+        color='onSurface.main'
         sx={{
           mr: 2,
-          display: { xs: "flex", md: "none" },
+          display: { xs: 'flex', md: 'none' },
           fontWeight: 600,
           flexGrow: 1,
         }}
-      >
-        
-      </Typography>
-      <IconButton sx={{ p: 0 }}
-       onClick={handleClick}
-      >
+      ></Typography>
+      <IconButton sx={{ p: 0 }} onClick={handleClick}>
         <Avatar
-          alt="Remy Sharp"
-          src="https://mui.com/static/images/avatar/2.jpg"
+          alt='Remy Sharp'
+          src='https://mui.com/static/images/avatar/2.jpg'
         />
       </IconButton>
       <Menu
-        id="basic-menu"
+        id='basic-menu'
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
@@ -55,5 +60,5 @@ export default function Welcome() {
         <MenuItem onClick={handleClose}>Logout</MenuItem>
       </Menu>
     </Toolbar>
-  );
+  )
 }

@@ -17,41 +17,43 @@ export default defineConfig({
       // https://cloudbase-baas-4g55sa6t673d1fe0-1253508198.ap-shanghai.app.tcloudbase.com
       // http://127.0.0.1:3303
       '/api': {
-        target: 'http://127.0.0.1:3002',
+        target: 'http://localhost:3002',
         changeOrigin: true,
-        rewrite: path => path.replace(/^\/api/, '')
-      }
-    }
-  },
-  plugins: [react(),
-  VitePWA({
-    injectRegister: 'auto',
-    // registerType: 'prompt',
-    // includeManifestIcons: false,
-    manifest: {
-      name: 'v-bill',
-      short_name: 'vbill',
-      description: '记账软件',
-      theme_color: '#fdfcf4',
-      background_color: '#fdfcf4',
-      icons: [
-        {
-          src: 'pwa-192x192.png',
-          sizes: '192x192',
-          type: 'image/png',
-        },
-        {
-          src: 'pwa-512x512.png',
-          sizes: '512x512',
-          type: 'image/png',
-        },
-        {
-          src: 'pwa-512x512.png',
-          sizes: '512x512',
-          type: 'image/png',
-          purpose: 'any maskable',
-        },
-      ],
+        rewrite: path => path.replace(/^\/api/, ''),
+      },
     },
-  })],
+  },
+  plugins: [
+    react(),
+    VitePWA({
+      injectRegister: 'auto',
+      // registerType: 'prompt',
+      // includeManifestIcons: false,
+      manifest: {
+        name: 'v-bill',
+        short_name: 'vbill',
+        description: '记账软件',
+        theme_color: '#fdfcf4',
+        background_color: '#fdfcf4',
+        icons: [
+          {
+            src: 'pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: 'pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+          {
+            src: 'pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any maskable',
+          },
+        ],
+      },
+    }),
+  ],
 })

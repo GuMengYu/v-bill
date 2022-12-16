@@ -8,7 +8,6 @@ const PageTransition = ({
   children: React.ReactNode
   disableEnterAnimation?: boolean
 }) => {
-
   // To restore scroll position
   // useLayoutEffect(() => {
   //   const main = document.querySelector('main')
@@ -17,7 +16,6 @@ const PageTransition = ({
   //   }
   // }, [])
 
-  
   return (
     <motion.div
       initial={{ opacity: disableEnterAnimation ? 1 : 0 }}

@@ -14,7 +14,14 @@ type method =
   | 'OPTIONS'
   | 'HEAD'
 
-type responseType = 'text' | 'json' | 'stream' | 'blob' | 'arrayBuffer' | 'formData' | 'stream'
+type responseType =
+  | 'text'
+  | 'json'
+  | 'stream'
+  | 'blob'
+  | 'arrayBuffer'
+  | 'formData'
+  | 'stream'
 
 export interface Response<T> {
   config: Options | undefined
@@ -31,8 +38,15 @@ export interface Response<T> {
   [key: string]: any
 }
 
-type BodylessMethod = <T = any>(url: string, config?: Options) => Promise<Response<T>>
-type BodyMethod = <T = any>(url: string, body?: any, config?: Options) => Promise<Response<T>>
+type BodylessMethod = <T = any>(
+  url: string,
+  config?: Options
+) => Promise<Response<T>>
+type BodyMethod = <T = any>(
+  url: string,
+  body?: any,
+  config?: Options
+) => Promise<Response<T>>
 
 export interface Options {
   baseURL?: string
@@ -80,7 +94,12 @@ class YoFetch {
   patch: BodyMethod = function (this: YoFetch, url, data, config) {
     return this.request(url, config, 'patch', data)
   }
-  request<T>(urlOrConfig: string | Options, config?: Options, _method?: method, data?: any): Promise<Response<T>> {
+  request<T>(
+    urlOrConfig: string | Options,
+    config?: Options,
+    _method?: method,
+    data?: any
+  ): Promise<Response<T>> {
     let url = ''
     if (typeof urlOrConfig !== 'string') {
       config = urlOrConfig
@@ -94,7 +113,7 @@ class YoFetch {
 
     data = data ?? options.data
 
-    options.transformRequest?.map((f) => {
+    options.transformRequest?.map(f => {
       data = f(data, options.headers) ?? data
     })
 
@@ -102,7 +121,12 @@ class YoFetch {
       customHeaders.authorization = options.auth
     }
 
-    if (data && typeof data === 'object' && typeof data.append !== 'function' && typeof data.text !== 'function') {
+    if (
+      data &&
+      typeof data === 'object' &&
+      typeof data.append !== 'function' &&
+      typeof data.text !== 'function'
+    ) {
       data = JSON.stringify(data)
       customHeaders['content-type'] = 'application/json'
     }
@@ -113,7 +137,9 @@ class YoFetch {
       customHeaders[options.xsrfHeaderName] = decodeURIComponent(
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        document.cookie.match(RegExp('(^|; )' + options.xsrfCookieName + '=([^;]*)'))[2]
+        document.cookie.match(
+          RegExp('(^|; )' + options.xsrfCookieName + '=([^;]*)')
+        )[2]
       )
       // eslint-disable-next-line no-empty
     } catch (e) {}
@@ -127,7 +153,9 @@ class YoFetch {
     if (options.params) {
       url +=
         (~url.indexOf('?') ? '&' : '?') +
-        (options.paramsSerializer ? options.paramsSerializer(options.params) : new URLSearchParams(options.params))
+        (options.paramsSerializer
+          ? options.paramsSerializer(options.params)
+          : new URLSearchParams(options.params))
     }
 
     // use customer fetch function if provided
@@ -138,7 +166,7 @@ class YoFetch {
       body: data,
       headers: deepMerge(options.headers, customHeaders),
       credentials: options.credentials,
-    }).then((res) => {
+    }).then(res => {
       for (const i in res) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
@@ -154,14 +182,16 @@ class YoFetch {
         return response
       }
       return res[options.responseType || 'text']()
-        .then((data) => {
+        .then(data => {
           response.data = data
           // its okay if this fails: response.data will be the unparsed value:
           response.data = JSON.parse(data)
         })
         .catch(Object)
         .then(() => {
-          const ok = options.validateStatus ? options.validateStatus(res.status) : res.ok
+          const ok = options.validateStatus
+            ? options.validateStatus(res.status)
+            : res.ok
           return ok ? response : Promise.reject(response)
         })
     })
@@ -172,7 +202,11 @@ class YoFetch {
   }
 }
 
-function deepMerge<T, U>(opts: T, overrides: U, lowerCase = false): Record<string, any> & (T | U) {
+function deepMerge<T, U>(
+  opts: T,
+  overrides: U,
+  lowerCase = false
+): Record<string, any> & (T | U) {
   const out: Record<string, any> = {}
   for (const i in opts) {
     const key = lowerCase ? i.toLowerCase() : i
@@ -181,7 +215,10 @@ function deepMerge<T, U>(opts: T, overrides: U, lowerCase = false): Record<strin
   for (const i in overrides) {
     const key = lowerCase ? i.toLowerCase() : i
     const value = overrides[i]
-    out[key] = key in out && typeof value == 'object' ? deepMerge(out[key], value, key == 'headers') : value
+    out[key] =
+      key in out && typeof value == 'object'
+        ? deepMerge(out[key], value, key == 'headers')
+        : value
   }
   return out as Record<string, any> & (T | U)
 }

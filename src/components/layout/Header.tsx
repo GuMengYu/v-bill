@@ -1,19 +1,19 @@
-import { Box, IconButton, Toolbar, Typography } from "@mui/material";
+import { Box, IconButton, Toolbar, Typography } from '@mui/material'
 
-import { ArrowBack } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { ArrowBack } from '@mui/icons-material'
+import { useNavigate } from 'react-router-dom'
 export default function Header({
-  title = "",
+  title = '',
   back = false,
   more,
   height = 128,
 }: {
-  title: string;
-  back?: boolean;
-  more?: JSX.Element;
+  title: string
+  back?: boolean
+  more?: JSX.Element
   height?: number
 }) {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   return (
     <Toolbar
@@ -36,18 +36,20 @@ export default function Header({
           <ArrowBack />
         </IconButton>
       ) : (
-        ""
+        ''
       )}
 
-      <Typography variant="h5" mt="auto">{title}</Typography>
+      <Typography variant='h5' mt='auto' color='onSurface.main'>
+        {title}
+      </Typography>
       <Box
         sx={{
-          position: "absolute",
+          position: 'absolute',
           right: 0,
         }}
       >
         {more}
       </Box>
     </Toolbar>
-  );
+  )
 }
